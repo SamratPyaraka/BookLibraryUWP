@@ -1,0 +1,50 @@
+﻿<Page
+    x:Class="BookLibrary1.Views.LoginDetailsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Style="{StaticResource PageStyle}"
+    mc:Ignorable="d">
+    <Grid x:Name="ContentArea" Margin="{StaticResource MediumLeftRightMargin}">
+        <Grid
+            Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
+            <Grid>
+                <StackPanel>
+                    <TextBlock Text="UserName" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,15,0,0" />
+                    <TextBox x:Name="userNameText" Text="" HorizontalAlignment="Center" VerticalAlignment="Top"
+                 IsReadOnly="True" IsDoubleTapEnabled="False" IsHoldingEnabled="False"
+                 IsRightTapEnabled="False" IsTapEnabled="False" FontSize="24" FontWeight="Bold"
+                 RequestedTheme="Default" IsHitTestVisible="False" IsTabStop="False"
+                 IsTextPredictionEnabled="False" BorderThickness="0,0,0,2" BorderBrush="Black"
+                 Width="200" TextAlignment="Center" Foreground="White" Background="Transparent"
+                 Height="45" Margin="0,5,0,10" />
+
+                    <TextBlock Text="Password" HorizontalAlignment="Center" VerticalAlignment="Top" />
+                    <TextBox x:Name="passwordText" Text="" HorizontalAlignment="Center" VerticalAlignment="Top"
+                 IsReadOnly="True" IsDoubleTapEnabled="False" IsHoldingEnabled="False"
+                 IsRightTapEnabled="False" IsTapEnabled="False" FontSize="24" FontWeight="Bold"
+                 RequestedTheme="Default" IsHitTestVisible="False" IsTabStop="False"
+                 IsTextPredictionEnabled="False" BorderThickness="0,0,0,2" BorderBrush="Black"
+                 Width="200" TextAlignment="Center" Foreground="White" Background="Transparent"
+                 Height="45" Margin="0,5,0,10" />
+
+                    <Button Content="Submit"  HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,15,0,0"/>
+
+                    <TextBlock Text="Or" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="30" Margin="20" />
+
+                    <Button Content="Login with Google"  HorizontalAlignment="Center" 
+                            VerticalAlignment="Top" Margin="0,15,0,0" Click="ConnectToGoogleCmd"/>
+
+                    <TextBox x:Name="textBoxOutput" MinHeight="158" Margin="22,22,22,22" TextWrapping="Wrap" Text=""
+                IsReadOnly="True" ScrollViewer.VerticalScrollBarVisibility="Auto"
+                RelativePanel.Below="button"
+                RelativePanel.AlignLeftWithPanel="True"
+                RelativePanel.AlignRightWithPanel="True"
+                RelativePanel.AlignBottomWithPanel="True"
+        />
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>
