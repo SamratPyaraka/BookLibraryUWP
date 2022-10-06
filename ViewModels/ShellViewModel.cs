@@ -7,8 +7,9 @@ using System.Windows.Input;
 using BookLibrary1.Helpers;
 using BookLibrary1.Services;
 
-using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
+
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 using Windows.System;
 using Windows.UI.Xaml.Controls;

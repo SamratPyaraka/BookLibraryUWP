@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Diagnostics;
+using BookLibrary1.Helpers;
 using BookLibrary1.Services;
+using BookLibrary1.ViewModels;
 using BookLibrary1.Views;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using NavigationViewItem = Microsoft.UI.Xaml.Controls.NavigationViewItem;
 
 namespace BookLibrary1
 {
@@ -19,11 +22,15 @@ namespace BookLibrary1
 
         public App()
         {
+            BuildDependencies();
             InitializeComponent();
             UnhandledException += OnAppUnhandledException;
-
             // Deferred execution until used. Check https://docs.microsoft.com/dotnet/api/system.lazy-1 for further info on Lazy<T> class.
             _activationService = new Lazy<ActivationService>(CreateActivationService);
+        }
+        public static void BuildDependencies()
+        {
+            Locator.Instance.Build();
         }
 
         protected override async void OnLaunched(LaunchActivatedEventArgs args)
@@ -43,15 +50,7 @@ namespace BookLibrary1
                 Uri uri = protocolArgs.Uri;
                 Debug.WriteLine("Authorization Response: " + uri.AbsoluteUri);
 
-                // Gets the current frame, making one if needed.
-                var frame = Window.Current.Content as Frame;
-                if (frame == null)
-                    frame = new Frame();
-
-                // Opens the URI for "navigation" (handling) on the MainPage.
-                frame.Navigate(typeof(LoginDetailsPage), uri);
-                Window.Current.Content = frame;
-                Window.Current.Activate();
+                NavigationService.Navigate(typeof(LoginDetailsPage), uri);
             }
 
 
@@ -68,7 +67,7 @@ namespace BookLibrary1
 
         private ActivationService CreateActivationService()
         {
-            return new ActivationService(this, typeof(Views.MainPage), new Lazy<UIElement>(CreateShell));
+            return new ActivationService(this, typeof(Views.LoginDetailsPage), null);
         }
 
        

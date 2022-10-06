@@ -12,22 +12,16 @@
             <Grid>
                 <StackPanel>
                     <TextBlock Text="UserName" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,15,0,0" />
-                    <TextBox x:Name="userNameText" Text="" HorizontalAlignment="Center" VerticalAlignment="Top"
-                 IsReadOnly="True" IsDoubleTapEnabled="False" IsHoldingEnabled="False"
-                 IsRightTapEnabled="False" IsTapEnabled="False" FontSize="24" FontWeight="Bold"
-                 RequestedTheme="Default" IsHitTestVisible="False" IsTabStop="False"
-                 IsTextPredictionEnabled="False" BorderThickness="0,0,0,2" BorderBrush="Black"
-                 Width="200" TextAlignment="Center" Foreground="White" Background="Transparent"
-                 Height="45" Margin="0,5,0,10" />
+                    <TextBox x:Name="userNameText" Text="" HorizontalAlignment="Center" VerticalAlignment="Center"
+                         BorderThickness="0,0,0,2" BorderBrush="Black"
+                        Width="200" TextAlignment="Center"  Background="Transparent"
+                        Height="45" Margin="0,5,0,10" />
 
                     <TextBlock Text="Password" HorizontalAlignment="Center" VerticalAlignment="Top" />
-                    <TextBox x:Name="passwordText" Text="" HorizontalAlignment="Center" VerticalAlignment="Top"
-                 IsReadOnly="True" IsDoubleTapEnabled="False" IsHoldingEnabled="False"
-                 IsRightTapEnabled="False" IsTapEnabled="False" FontSize="24" FontWeight="Bold"
-                 RequestedTheme="Default" IsHitTestVisible="False" IsTabStop="False"
-                 IsTextPredictionEnabled="False" BorderThickness="0,0,0,2" BorderBrush="Black"
-                 Width="200" TextAlignment="Center" Foreground="White" Background="Transparent"
-                 Height="45" Margin="0,5,0,10" />
+                    <PasswordBox x:Name="passwordText" Password="" HorizontalAlignment="Center" VerticalAlignment="Center"
+                         BorderThickness="0,0,0,2" BorderBrush="Black"
+                         Width="200"  Background="Transparent"
+                         Height="45" Margin="0,5,0,10" />
 
                     <Button Content="Submit"  HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,15,0,0"/>
 
@@ -38,7 +32,7 @@
 
                     <TextBox x:Name="textBoxOutput" MinHeight="158" Margin="22,22,22,22" TextWrapping="Wrap" Text=""
                 IsReadOnly="True" ScrollViewer.VerticalScrollBarVisibility="Auto"
-                RelativePanel.Below="button"
+                RelativePanel.Below="button" Visibility="Collapsed"
                 RelativePanel.AlignLeftWithPanel="True"
                 RelativePanel.AlignRightWithPanel="True"
                 RelativePanel.AlignBottomWithPanel="True"

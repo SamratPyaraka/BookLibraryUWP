@@ -4,7 +4,12 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using BookLibrary1.Model;
+using BookLibrary1.Services;
+using BookLibrary1.Services.UserService;
 using BookLibrary1.ViewModels;
+using Google.Apis.Auth;
+using Newtonsoft.Json.Linq;
 using Windows.Data.Json;
 using Windows.Security.Cryptography;
 using Windows.Security.Cryptography.Core;
@@ -125,11 +130,39 @@ namespace BookLibrary1.Views
                 string accessToken = tokens.GetNamedString("access_token");
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
 
+                GoogleJsonWebSignature.Payload payload = await GoogleJsonWebSignature.ValidateAsync(tokens.GetNamedString("id_token"));
+                output("JWT ID Token Payload Response..."+ payload.ToString());
+                var info = new IDTokenPayLoad()
+                {
+                    Scope = payload.Scope,
+                    Email = payload?.Email,
+                    EmailVerified = payload.EmailVerified,
+                    FamilyName = payload.FamilyName,
+                    GivenName = payload.GivenName,
+                    HostedDomain = payload.HostedDomain,
+                    Name = payload.Name,
+                    Picture = payload.Picture
+
+                };
+                AppSettings.IDTokenPayLoad = info;
+
+                if (!string.IsNullOrEmpty(AppSettings.IDTokenPayLoad.Email))
+                {
+                    var userService = Locator.Instance.Resolve<IUserServices>();
+                    var res = await userService.GetUserFromEmail(AppSettings.IDTokenPayLoad.Email);
+                    if (res.Response)
+                    {
+                        NavigationService.Navigate(typeof(MainPage));
+                    }
+                }
+
                 // Makes a call to the Userinfo endpoint, and prints the results.
                 output("Making API Call to Userinfo...");
                 HttpResponseMessage userinfoResponse = client.GetAsync(userInfoEndpoint).Result;
                 string userinfoResponseContent = await userinfoResponse.Content.ReadAsStringAsync();
                 output(userinfoResponseContent);
+
+                NavigationService.Navigate(typeof(RegistrationPage));
             }
             catch (Exception ex)
             {
