@@ -22,6 +22,7 @@
                 <TextBlock Text="Create New Book" FontWeight="Bold" FontSize="14" HorizontalAlignment="Right" 
                     Style="{StaticResource BaseTextBlockStyle}"/>
             </Button>
+           
             <GridView ItemsSource="{Binding ListOfBooks,Mode=TwoWay}" SelectionChanged="GridView_SelectionChanged"
                       SelectedItem="{Binding OnBookSelected}" HorizontalAlignment="Center"
                       Margin="0,50,0,0" x:Name="gridView"

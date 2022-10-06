@@ -13,6 +13,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using System.Diagnostics;
+using BookLibrary1.Views;
+using Google.Apis.Auth;
+using Newtonsoft.Json.Linq;
 
 namespace BookLibrary1.Services.RequestService
 {
@@ -132,7 +135,30 @@ namespace BookLibrary1.Services.RequestService
             }
         }
 
-        HttpClient retryhttpClient = null;
+        public async Task<bool> IsAccessTokenValid()
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(AppSettings.GAccessTokenID))
+                {
+                    GoogleJsonWebSignature.Payload payload = await GoogleJsonWebSignature.ValidateAsync(AppSettings.GAccessTokenID);
+
+                    if (payload != null)
+                    {
+                        return true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                if(!string.IsNullOrEmpty(ex.Message) && ex.Message.ToLower().Contains("expired"))
+                {
+                    AppSettings.GAccessTokenID = "";
+                }
+            }
+            return false;
+        }
+
         HttpClient httpClient = null;
 
         private async Task<HttpClient> CreateHttpClient(string token = "", Dictionary<string, string> Headers = null, bool isAccessTokenRequired = true, int timeout = 90, bool autoRetry = true)
@@ -141,6 +167,12 @@ namespace BookLibrary1.Services.RequestService
             Headers.Add("AppPackageName", AppInfo.Current.PackageFamilyName);
             Headers.Add("AppVersion", "1");
 
+            if (!await IsAccessTokenValid())
+            {
+                NavigationService.Navigate(typeof(LoginDetailsPage));
+            }
+            if (httpClient != null)
+                return httpClient;
 
             httpClient = new HttpClient();
 

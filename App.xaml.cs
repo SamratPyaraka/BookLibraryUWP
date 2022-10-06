@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using BookLibrary1.Helpers;
 using BookLibrary1.Services;
+using BookLibrary1.Services.RequestService;
 using BookLibrary1.ViewModels;
 using BookLibrary1.Views;
 using Windows.ApplicationModel.Activation;
@@ -39,6 +41,7 @@ namespace BookLibrary1
             {
                 await ActivationService.ActivateAsync(args);
             }
+
         }
 
         protected override async void OnActivated(IActivatedEventArgs args)
@@ -65,12 +68,14 @@ namespace BookLibrary1
             // For more info see https://docs.microsoft.com/uwp/api/windows.ui.xaml.application.unhandledexception
         }
 
+        bool isTokenValid;
         private ActivationService CreateActivationService()
         {
             return new ActivationService(this, typeof(Views.LoginDetailsPage), null);
+
         }
 
-       
+
 
         private UIElement CreateShell()
         {

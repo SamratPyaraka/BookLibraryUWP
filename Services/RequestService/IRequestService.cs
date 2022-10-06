@@ -21,6 +21,6 @@ namespace BookLibrary1.Services.RequestService
         Task<TResult> PutAsync<TRequest, TResult>(string uri, TRequest data, string token = "");
 
         Task<TResult> PostFileAsync<TResult>(string uri, Stream data, string fileName, Dictionary<string, string> headers = null);
-        //Task<AccessTokenResponse> GetAccessToken();
+        Task<bool> IsAccessTokenValid();
     }
 }

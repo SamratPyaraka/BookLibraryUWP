@@ -9,7 +9,6 @@ using BookLibrary1.Services;
 using BookLibrary1.Services.UserService;
 using BookLibrary1.ViewModels;
 using Google.Apis.Auth;
-using Newtonsoft.Json.Linq;
 using Windows.Data.Json;
 using Windows.Security.Cryptography;
 using Windows.Security.Cryptography.Core;
@@ -23,12 +22,22 @@ namespace BookLibrary1.Views
 {
     public sealed partial class LoginDetailsPage : Page
     {
+
+        const string clientID = "1076102788232-j2bbcig9jsbaqqvl4ns18l5everubm42.apps.googleusercontent.com";
+        const string redirectURI = "uwp.books.library:/oaut2redirect";
+        const string authorizationEndpoint = "https://accounts.google.com/o/oauth2/v2/auth";
+        const string tokenEndpoint = "https://www.googleapis.com/oauth2/v4/token";
+        const string userInfoEndpoint = "https://www.googleapis.com/oauth2/v3/userinfo";
+        const string Scope = "https://www.googleapis.com/auth/userinfo.email";
+
         public LoginDetailsViewModel ViewModel { get; } = new LoginDetailsViewModel();
 
         public LoginDetailsPage()
         {
             InitializeComponent();
             DataContext = ViewModel;
+            ViewModel.Initialize(shellFrame, KeyboardAccelerators);
+
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -40,14 +49,13 @@ namespace BookLibrary1.Views
                     // Gets URI from navigation parameters.
                     Uri authorizationResponse = (Uri)e.Parameter;
                     string queryString = authorizationResponse.Query;
-                    output("MainPage received authorizationResponse: " + authorizationResponse);
+                    output("LoginPage received authorizationResponse: " + authorizationResponse);
 
                     // Parses URI params into a dictionary
                     // ref: http://stackoverflow.com/a/11957114/72176
-                    Dictionary<string, string> queryStringParams =
-                            queryString.Substring(1).Split('&')
-                                 .ToDictionary(c => c.Split('=')[0],
-                                               c => Uri.UnescapeDataString(c.Split('=')[1]));
+                    Dictionary<string, string> queryStringParams = queryString.Substring(1).Split('&')
+                                                                    .ToDictionary(c => c.Split('=')[0],
+                                                                    c => Uri.UnescapeDataString(c.Split('=')[1]));
 
                     if (queryStringParams.ContainsKey("error"))
                     {
@@ -87,22 +95,18 @@ namespace BookLibrary1.Views
                     string code_verifier = (String)localSettings.Values["code_verifier"];
                     performCodeExchangeAsync(code, code_verifier);
                 }
-                else
-                {
-                    Debug.WriteLine(e.Parameter);
-                }
             }
             catch (Exception ex)
             {
             }
-            
+
         }
 
         async void performCodeExchangeAsync(string code, string code_verifier)
         {
             try
             {
-                string tokenRequestBody = string.Format("code={0}&redirect_uri={1}&client_id={2}&code_verifier={3}&scope=&grant_type=authorization_code",
+                string tokenRequestBody = string.Format("code={0}&redirect_uri={1}&client_id={2}&code_verifier={3}&scope=openid%20profile&grant_type=authorization_code",
                 code,
                 System.Uri.EscapeDataString(redirectURI),
                 clientID,
@@ -128,11 +132,15 @@ namespace BookLibrary1.Views
 
                 // Sets the Authentication header of our HTTP client using the acquired access token.
                 JsonObject tokens = JsonObject.Parse(responseString);
-                string accessToken = tokens.GetNamedString("access_token");
-                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
+                AppSettings.GoogleAccessToken = tokens.GetNamedString("access_token");
+                AppSettings.GoogleRefreshToken = tokens.GetNamedString("refresh_token");
+                AppSettings.GAccessTokenID = tokens.GetNamedString("id_token");
+                AppSettings.GAccessTokenExpiresIn = Convert.ToInt32(tokens.GetNamedNumber("expires_in"));
+
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", AppSettings.GoogleAccessToken);
 
                 GoogleJsonWebSignature.Payload payload = await GoogleJsonWebSignature.ValidateAsync(tokens.GetNamedString("id_token"));
-                output("JWT ID Token Payload Response..."+ payload.ToString());
+                output("JWT ID Token Payload Response..." + payload.ToString());
                 var info = new IDTokenPayLoad()
                 {
                     Scope = payload.Scope,
@@ -153,29 +161,24 @@ namespace BookLibrary1.Views
                     var res = await userService.GetUserFromEmail(AppSettings.IDTokenPayLoad.Email);
                     if (res.Response)
                     {
-                        NavigationService.Navigate(typeof(MainPage));
+                        NavigationService.Navigate(typeof(ShellPage));
+                    }
+                    else
+                    {
+                        NavigationService.Navigate(typeof(RegistrationPage));
                     }
                 }
-
-                // Makes a call to the Userinfo endpoint, and prints the results.
-                output("Making API Call to Userinfo...");
-                HttpResponseMessage userinfoResponse = client.GetAsync(userInfoEndpoint).Result;
-                string userinfoResponseContent = await userinfoResponse.Content.ReadAsStringAsync();
-                output(userinfoResponseContent);
-
-                NavigationService.Navigate(typeof(RegistrationPage));
             }
             catch (Exception ex)
             {
             }
             // Builds the Token request
-            
+
         }
 
         /// <summary>
         /// Appends the given string to the on-screen log, and the debug console.
         /// </summary>
-        /// <param name="output">string to be appended</param>
         public void output(string output)
         {
             try
@@ -187,14 +190,12 @@ namespace BookLibrary1.Views
             {
 
             }
-           
+
         }
 
         /// <summary>
         /// Returns URI-safe data with a given input length.
         /// </summary>
-        /// <param name="length">Input length (nb. output will be longer)</param>
-        /// <returns></returns>
         public static string randomDataBase64url(uint length)
         {
             IBuffer buffer = CryptographicBuffer.GenerateRandom(length);
@@ -204,8 +205,6 @@ namespace BookLibrary1.Views
         /// <summary>
         /// Returns the SHA256 hash of the input string.
         /// </summary>
-        /// <param name="inputString"></param>
-        /// <returns></returns>
         public static IBuffer sha256(string inputString)
         {
             HashAlgorithmProvider sha = HashAlgorithmProvider.OpenAlgorithm(HashAlgorithmNames.Sha256);
@@ -216,8 +215,6 @@ namespace BookLibrary1.Views
         /// <summary>
         /// Base64url no-padding encodes the given input buffer.
         /// </summary>
-        /// <param name="buffer"></param>
-        /// <returns></returns>
         public static string base64urlencodeNoPadding(IBuffer buffer)
         {
             string base64 = CryptographicBuffer.EncodeToBase64String(buffer);
@@ -230,15 +227,6 @@ namespace BookLibrary1.Views
 
             return base64;
         }
-
-        const string clientID = "1076102788232-j2bbcig9jsbaqqvl4ns18l5everubm42.apps.googleusercontent.com";
-        const string redirectURI = "uwp.books.library:/oaut2redirect";
-        const string authorizationEndpoint = "https://accounts.google.com/o/oauth2/v2/auth";
-        const string tokenEndpoint = "https://www.googleapis.com/oauth2/v4/token";
-        const string userInfoEndpoint = "https://www.googleapis.com/oauth2/v3/userinfo";
-        const string Scope = "https://www.googleapis.com/auth/userinfo.email";
-
-
 
         private void ConnectToGoogleCmd(object sender, RoutedEventArgs e)
         {
@@ -258,13 +246,15 @@ namespace BookLibrary1.Views
                 localSettings.Values["code_verifier"] = code_verifier;
 
                 // Creates the OAuth 2.0 authorization request.
-                string authorizationRequest = string.Format("{0}?response_type=code&scope=openid%20profile&redirect_uri={1}&client_id={2}&state={3}&code_challenge={4}&code_challenge_method={5}",
+                string authorizationRequest = string.Format("{0}?response_type=code&scope={6}&redirect_uri={1}&client_id={2}&state={3}&code_challenge={4}&code_challenge_method={5}&clientSecret={7}",
                     authorizationEndpoint,
                     System.Uri.EscapeDataString(redirectURI),
                     clientID,
                     state,
                     code_challenge,
-                    code_challenge_method);
+                    code_challenge_method,
+                    AppSettings.Scope+ " openid%20profile",
+                    AppSettings.ClientSecret);
 
                 output("Opening authorization request URI: " + authorizationRequest);
 
@@ -273,9 +263,7 @@ namespace BookLibrary1.Views
             }
             catch (Exception ex)
             {
-
             }
-            
         }
     }
 }

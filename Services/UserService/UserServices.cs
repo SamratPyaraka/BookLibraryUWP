@@ -3,6 +3,7 @@ using BookLibrary1.Services.RequestService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -41,8 +42,11 @@ namespace BookLibrary1.Services.UserService
             try
             {
                 UriBuilder uriBuilder = new UriBuilder(AppSettings.GetUserFromEmailUri);
+                System.Collections.Specialized.NameValueCollection query = HttpUtility.ParseQueryString(uriBuilder.Query);
+                query["email"] = email;
+                uriBuilder.Query = query.ToString();
                 string uri = uriBuilder.ToString();
-                userInfo = await _requestService.PostAsync<string, APIResponse>(uri, email);
+                userInfo = await _requestService.GetAsync<APIResponse>(uri);
             }
             catch (Exception ex)
             {

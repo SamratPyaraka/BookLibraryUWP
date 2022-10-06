@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Style="{StaticResource PageStyle}"
     mc:Ignorable="d">
-    <Grid x:Name="ContentArea" Margin="{StaticResource MediumLeftRightMargin}">
+    <Grid x:Name="shellFrame" Margin="{StaticResource MediumLeftRightMargin}">
         <Grid
             Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
             <Grid>
@@ -30,7 +30,7 @@
                     <Button Content="Login with Google"  HorizontalAlignment="Center" 
                             VerticalAlignment="Top" Margin="0,15,0,0" Click="ConnectToGoogleCmd"/>
 
-                    <Button Content="Google" Command="{Binding GoogleCommand}"  />
+                    
 
                     <TextBox x:Name="textBoxOutput" MinHeight="158" Margin="22,22,22,22" TextWrapping="Wrap" Text=""
                 IsReadOnly="True" ScrollViewer.VerticalScrollBarVisibility="Auto"

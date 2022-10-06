@@ -1,21 +1,11 @@
-﻿using System;
-using System.Windows.Input;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using Windows.Storage;
+﻿
+
+using BookLibrary1.Services.RequestService;
+using BookLibrary1.Services;
+using BookLibrary1.Views;
 using System.Collections.Generic;
-using System.Linq;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
-using System.Diagnostics;
-using System.Net.Http;
-using System.Text;
-using Windows.Data.Json;
-using Windows.Storage.Streams;
-using Windows.Security.Cryptography;
-using Windows.Security.Cryptography.Core;
-using Xamarin.Essentials;
+using Windows.UI.Xaml.Input;
+using System.Threading.Tasks;
 
 namespace BookLibrary1.ViewModels
 {
@@ -23,37 +13,25 @@ namespace BookLibrary1.ViewModels
     {
         public LoginDetailsViewModel()
         {
+            
         }
 
-        string accessToken = string.Empty;
-
-        public string AuthToken
-        {
-            get => accessToken;
-            set => SetProperty(ref accessToken, value);
-        }
-
-        public ICommand GoogleCommand => new RelayCommand(GoogleLogin);
-
-        public async void GoogleLogin()
+        public async void Initialize(object shellFrame, IList<KeyboardAccelerator> keyboardAccelerators)
         {
             try
             {
-                WebAuthenticatorResult r = null;
-
-                var authUrl = new Uri(AppSettings.DefaultEndpoint+"/api/Auth/" + "Google");
-                var callbackUrl = new Uri("uwp.books.library://");
-
-                r = await WebAuthenticator.AuthenticateAsync(authUrl, callbackUrl);
-
-
-                AuthToken = r?.AccessToken ?? r?.IdToken;
+                var _requestService = Locator.Instance.Resolve<IRequestService>();
+                if (await _requestService.IsAccessTokenValid())
+                {
+                    await Task.Delay(2000);
+                    NavigationService.Navigate(typeof(ShellPage));
+                }
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
-                AuthToken = string.Empty;
-                //await DisplayAlertAsync($"Failed: {ex.Message}");
+
             }
+
         }
 
     }

@@ -12,6 +12,23 @@ namespace BookLibrary1
 {
     public class AppSettings
     {
+        public static string AppName = "Book Library";
+
+        // OAuth
+        // For Google login, configure at https://console.developers.google.com/
+        public static string ClientId = "1076102788232-j2bbcig9jsbaqqvl4ns18l5everubm42.apps.googleusercontent.com";
+        public static string ClientSecret = "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";
+        //public static string AndroidClientId = "1076102788232-j2bbcig9jsbaqqvl4ns18l5everubm42.apps.googleusercontent.com";
+
+        // These values do not need changing
+        public static string Scope = "https://www.googleapis.com/auth/userinfo.email";
+        public static string AuthorizeUrl = "https://accounts.google.com/o/oauth2/auth";
+        public static string AccessTokenUrl = "https://www.googleapis.com/oauth2/v4/token";
+        public static string UserInfoUrl = "https://www.googleapis.com/oauth2/v2/userinfo";
+
+        // Set these to reversed iOS/Android client ids, with :/oauth2redirect appended
+        public static string RedirectUrl = "uwp.books.library:/oaut2redirect";
+        //public static string AndroidRedirectUrl = "com.googleusercontent.apps.844060696235-ltgivjolb8v7ioidint435qa2o8ls38d:/oauth2redirect";
 
         private static readonly AppSettings _instance = new AppSettings();
         private static string _baseEndpointPrimary;
@@ -19,7 +36,7 @@ namespace BookLibrary1
         private static string _baseEndpoint;
 
 #if RELEASE
-        public const string DefaultEndpoint = "https://api.flexsalary.com/APIV1";  
+        public const string DefaultEndpoint = "http://localhost:5221";  
         public static string ReleaseMode = "Production";
 #else
         public static string DefaultEndpoint = "http://localhost:5221";
