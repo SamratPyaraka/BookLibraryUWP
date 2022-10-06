@@ -23,11 +23,12 @@ namespace BookLibrary1.Views
 {
     public sealed partial class LoginDetailsPage : Page
     {
-       // public LoginDetailsViewModel ViewModel { get; } = new LoginDetailsViewModel();
+        public LoginDetailsViewModel ViewModel { get; } = new LoginDetailsViewModel();
 
         public LoginDetailsPage()
         {
             InitializeComponent();
+            DataContext = ViewModel;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -235,7 +236,7 @@ namespace BookLibrary1.Views
         const string authorizationEndpoint = "https://accounts.google.com/o/oauth2/v2/auth";
         const string tokenEndpoint = "https://www.googleapis.com/oauth2/v4/token";
         const string userInfoEndpoint = "https://www.googleapis.com/oauth2/v3/userinfo";
-        
+        const string Scope = "https://www.googleapis.com/auth/userinfo.email";
 
 
 

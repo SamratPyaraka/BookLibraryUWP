@@ -15,21 +15,46 @@ using Windows.Data.Json;
 using Windows.Storage.Streams;
 using Windows.Security.Cryptography;
 using Windows.Security.Cryptography.Core;
+using Xamarin.Essentials;
 
 namespace BookLibrary1.ViewModels
 {
-    public class LoginDetailsViewModel : Page
+    public class LoginDetailsViewModel : ViewModelBase
     {
-        const string clientID = "";
-        const string redirectURI = "uwp.books.library:/oaut2redirect";
-        const string authorizationEndpoint = "https://accounts.google.com/o/oauth2/v2/auth";
-        const string tokenEndpoint = "https://www.googleapis.com/oauth2/v4/token";
-        const string userInfoEndpoint = "https://www.googleapis.com/oauth2/v3/userinfo";
         public LoginDetailsViewModel()
         {
         }
 
-       
+        string accessToken = string.Empty;
+
+        public string AuthToken
+        {
+            get => accessToken;
+            set => SetProperty(ref accessToken, value);
+        }
+
+        public ICommand GoogleCommand => new RelayCommand(GoogleLogin);
+
+        public async void GoogleLogin()
+        {
+            try
+            {
+                WebAuthenticatorResult r = null;
+
+                var authUrl = new Uri(AppSettings.DefaultEndpoint+"/api/Auth/" + "Google");
+                var callbackUrl = new Uri("uwp.books.library://");
+
+                r = await WebAuthenticator.AuthenticateAsync(authUrl, callbackUrl);
+
+
+                AuthToken = r?.AccessToken ?? r?.IdToken;
+            }
+            catch (Exception ex)
+            {
+                AuthToken = string.Empty;
+                //await DisplayAlertAsync($"Failed: {ex.Message}");
+            }
+        }
 
     }
 }
