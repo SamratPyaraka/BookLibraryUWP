@@ -1,4 +1,5 @@
-﻿using BookLibrary1.Model;
+﻿using BookLibrary1.Helpers;
+using BookLibrary1.Model;
 using BookLibrary1.Services;
 using BookLibrary1.Services.UserService;
 using BookLibrary1.Views;
@@ -61,9 +62,16 @@ namespace BookLibrary1.ViewModels
 
         public void Initialize(object shellFrame, IList<KeyboardAccelerator> keyboardAccelerators)
         {
-            FirstNameText = AppSettings.IDTokenPayLoad.GivenName;
-            LastNameText = AppSettings.IDTokenPayLoad.FamilyName;
-            EmailText = AppSettings.IDTokenPayLoad.Email;
+            try
+            {
+                FirstNameText = AppSettings.IDTokenPayLoad.GivenName;
+                LastNameText = AppSettings.IDTokenPayLoad.FamilyName;
+                EmailText = AppSettings.IDTokenPayLoad.Email;
+            }
+            catch (Exception ex)
+            {
+                LogError.TrackError(ex, "RegistrationViewModel->Initialize");
+            }
         }
 
         public ICommand RegisterCMD => new RelayCommand(Register);

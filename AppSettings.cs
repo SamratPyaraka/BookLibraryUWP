@@ -14,6 +14,8 @@ namespace BookLibrary1
     {
         public static string AppName = "Book Library";
 
+        public static string AppCenterSecret = "5721241e-5ff5-4071-a6e5-20ec80c18e7f";
+
         // OAuth
         // For Google login, configure at https://console.developers.google.com/
         public static string ClientId = "1076102788232-j2bbcig9jsbaqqvl4ns18l5everubm42.apps.googleusercontent.com";
@@ -50,6 +52,7 @@ namespace BookLibrary1
         public static string GetUserFromEmailUri => $"{DefaultEndpoint}/api/Users/GetUserFromEmail";
         public static string GetBooksUri => $"{DefaultEndpoint}/api/Books";
         public static string GetBookUri => $"{DefaultEndpoint}/api/Books/GetBooks";
+        public static string GetLimitedBooksUri => $"{DefaultEndpoint}/api/Books/GetLimitedBooks";
         public static string UpdateBookDetailsUri => $"{DefaultEndpoint}/api/Books/UpdateBookDetails";
         public static string UpdateBookStatusUri => $"{DefaultEndpoint}/api/Books/UpdateBookStatus";
         public static string CreateNewBookUri => $"{DefaultEndpoint}/api/Books/CreateNewBook";

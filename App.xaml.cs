@@ -10,6 +10,9 @@ using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using NavigationViewItem = Microsoft.UI.Xaml.Controls.NavigationViewItem;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 
 namespace BookLibrary1
 {
@@ -29,6 +32,8 @@ namespace BookLibrary1
             UnhandledException += OnAppUnhandledException;
             // Deferred execution until used. Check https://docs.microsoft.com/dotnet/api/system.lazy-1 for further info on Lazy<T> class.
             _activationService = new Lazy<ActivationService>(CreateActivationService);
+
+            AppCenter.Start(AppSettings.AppCenterSecret, typeof(Analytics), typeof(Crashes));
         }
         public static void BuildDependencies()
         {

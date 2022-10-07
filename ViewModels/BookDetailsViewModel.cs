@@ -1,4 +1,5 @@
-﻿using BookLibrary1.Model;
+﻿using BookLibrary1.Helpers;
+using BookLibrary1.Model;
 using BookLibrary1.Services;
 using BookLibrary1.Views;
 using CommunityToolkit.Mvvm.Input;
@@ -29,7 +30,7 @@ namespace BookLibrary1.ViewModels
         public string BookName
         {
             get { return _BookName; }
-            set { SetProperty(ref _BookName, value); OnPropertyChanged(); }
+            set {  _BookName= value; OnPropertyChanged(); }
         }
 
         private string _BookDescription;
@@ -37,7 +38,7 @@ namespace BookLibrary1.ViewModels
         public string BookDescription
         {
             get { return _BookDescription; }
-            set { SetProperty(ref _BookDescription, value); OnPropertyChanged(); }
+            set { _BookDescription = value; OnPropertyChanged(); }
         }
 
         private string _BookImageURL;
@@ -106,6 +107,7 @@ namespace BookLibrary1.ViewModels
             }
             catch (System.Exception ex)
             {
+                LogError.TrackError(ex, "BookDetailsViewModel->Initialize");
             }
         }
 
@@ -140,7 +142,7 @@ namespace BookLibrary1.ViewModels
             }
             catch (Exception ex)
             {
-
+                LogError.TrackError(ex, "BookDetailsViewModel->CreateBook");
             }
         }
         public async void DeleteBook()
@@ -161,7 +163,7 @@ namespace BookLibrary1.ViewModels
             }
             catch (Exception ex)
             {
-
+                LogError.TrackError(ex, "BookDetailsViewModel->DeleteBook");
             }
         }
         public async void BookNameEditCMD()
@@ -182,7 +184,7 @@ namespace BookLibrary1.ViewModels
             }
             catch (Exception ex)
             {
-
+                LogError.TrackError(ex, "BookDetailsViewModel->BookNameEditCMD");
             }
 
         }
@@ -207,7 +209,7 @@ namespace BookLibrary1.ViewModels
             }
             catch (Exception ex)
             {
-
+                LogError.TrackError(ex, "BookDetailsViewModel->BookDescEditCMD");
             }
         }
 

@@ -6,6 +6,7 @@ using BookLibrary1.Views;
 using System.Collections.Generic;
 using Windows.UI.Xaml.Input;
 using System.Threading.Tasks;
+using BookLibrary1.Helpers;
 
 namespace BookLibrary1.ViewModels
 {
@@ -29,7 +30,7 @@ namespace BookLibrary1.ViewModels
             }
             catch (System.Exception ex)
             {
-
+                LogError.TrackError(ex, "LoginDetailsViewModel->Initialize");
             }
 
         }

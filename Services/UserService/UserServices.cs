@@ -73,6 +73,28 @@ namespace BookLibrary1.Services.UserService
             return booksList;
         }
 
+        public async Task<List<Books>> GetLimitedBooks(int? skip, int? take)
+        {
+            List<Books> booksList = new List<Books>();
+            try
+            {
+                UriBuilder uriBuilder = new UriBuilder(AppSettings.GetLimitedBooksUri);
+                System.Collections.Specialized.NameValueCollection query = HttpUtility.ParseQueryString(uriBuilder.Query);
+                
+                query["skip"] = skip.ToString();
+                query["take"] = take.ToString();
+                uriBuilder.Query = query.ToString();
+                string uri = uriBuilder.ToString();
+                booksList = await _requestService.GetAsync<List<Books>>(uri);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return booksList;
+        }
+
         public async Task<Books> GetBooks(int bookID)
         {
             Books book = new Books();

@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using BookLibrary1.Helpers;
 using BookLibrary1.Model;
 using BookLibrary1.Services;
 using BookLibrary1.Services.UserService;
@@ -98,6 +99,7 @@ namespace BookLibrary1.Views
             }
             catch (Exception ex)
             {
+                LogError.TrackError(ex, "LoginDetailsPage->OnNavigatedTo");
             }
 
         }
@@ -171,6 +173,7 @@ namespace BookLibrary1.Views
             }
             catch (Exception ex)
             {
+                LogError.TrackError(ex, "LoginDetailsPage->performCodeExchangeAsync");
             }
             // Builds the Token request
 
@@ -186,9 +189,9 @@ namespace BookLibrary1.Views
                 textBoxOutput.Text = textBoxOutput.Text + output + Environment.NewLine;
                 Debug.WriteLine(output);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                LogError.TrackError(ex, "LoginDetailsPage->output");
             }
 
         }
@@ -263,6 +266,7 @@ namespace BookLibrary1.Views
             }
             catch (Exception ex)
             {
+                LogError.TrackError(ex, "LoginDetailsPage->ConnectToGoogleCmd");
             }
         }
     }

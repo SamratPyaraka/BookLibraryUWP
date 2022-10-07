@@ -12,6 +12,7 @@ namespace BookLibrary1.Services.UserService
         Task<APIResponse> CreateUser(UserRequest ur);
         Task<APIResponse> GetUserFromEmail(string email);
         Task<List<Books>> GetBooks();
+        Task<List<Books>> GetLimitedBooks(int? skip, int? take);
         Task<Books> GetBooks(int bookID);
         Task<APIResponse> UpdateBookDetails(Books books);
         Task<APIResponse> UpdateBookStatus(int bookID);
