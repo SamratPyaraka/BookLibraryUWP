@@ -73,9 +73,9 @@ namespace BookLibrary1.ViewModels
             set { bookCount = value; OnPropertyChanged(); }
         }
 
-        private int _BookCategory;
+        private string _BookCategory;
 
-        public int BookCategory
+        public string BookCategory
         {
             get { return _BookCategory; }
             set { _BookCategory = value; OnPropertyChanged(); }
@@ -98,9 +98,9 @@ namespace BookLibrary1.ViewModels
                 if (AppSettings.BookID > 0)
                 {
                     Books = await userServices.GetBooks(AppSettings.BookID);
-                    BookName = Books.BookName;
-                    BookDescription = Books.BookDescription;
-                    BookImageURL = Books.BookImageURL;
+                    BookName = Books.Title;
+                    BookDescription = Books.Description;
+                    BookImageURL = Books.ImageURL;
                     EditImage = AppSettings.DefaultEndpoint + "/BookImages/edit.png";
                     DeleteIcon = AppSettings.DefaultEndpoint + "/BookImages/delete.png";
                 }
@@ -121,12 +121,12 @@ namespace BookLibrary1.ViewModels
             try
             {
                 var newBook = new Books {
-                    BookName = BookName,
-                    BookDescription = BookDescription,
+                    Title = BookName,
+                    Description = BookDescription,
                     BookCount = BookCount,
                     KeepType = (KeepType)KeepType,
-                    Category = (BookType)BookCategory,
-                    BookImageURL = "/BookImages/TheKiteRunner.jpg"
+                    Category = BookCategory,
+                    ImageURL = "/BookImages/TheKiteRunner.jpg"
                 };
 
                 var response = await userServices.CreateNewBook(newBook);
@@ -149,7 +149,7 @@ namespace BookLibrary1.ViewModels
         {
             try
             {
-                Books.BookName = BookName;
+                Books.Title = BookName;
                 var response = await userServices.UpdateBookStatus(AppSettings.BookID);
                 if (response.Response)
                 {
@@ -170,7 +170,7 @@ namespace BookLibrary1.ViewModels
         {
             try
             {
-                Books.BookName = BookName;
+                Books.Title = BookName;
                 var response = await userServices.UpdateBookDetails(Books);
                 if (response.Response)
                 {
@@ -195,7 +195,7 @@ namespace BookLibrary1.ViewModels
         {
             try
             {
-                Books.BookDescription = BookDescription;
+                Books.Description = BookDescription;
                 var response = await userServices.UpdateBookDetails(Books);
                 if (response.Response)
                 {

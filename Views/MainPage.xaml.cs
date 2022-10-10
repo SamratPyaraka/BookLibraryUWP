@@ -6,10 +6,7 @@ using BookLibrary1.Model;
 using BookLibrary1.Services;
 using BookLibrary1.ViewModels;
 using Microsoft.Toolkit.Uwp;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media.Imaging;
-using static System.Reflection.Metadata.BlobBuilder;
 using static BookLibrary1.ViewModels.MainViewModel;
 
 namespace BookLibrary1.Views
@@ -40,7 +37,6 @@ namespace BookLibrary1.Views
             {
                 LogError.TrackError(ex, "MainViewModel->GridView_SelectionChanged");
             }
-
         }
 
         private void gridView_ItemClick(object sender, ItemClickEventArgs e)
@@ -62,64 +58,89 @@ namespace BookLibrary1.Views
         public IncrementalLoadingCollection<BookSource, Books> ListOfBooks { get; set; }
         private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            try
             {
-                if (textSearched.Text != null)
+                if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
                 {
-                    if (ListOfBooks == null)
-                        ListOfBooks = ViewModel.GetBooksList();
-
-                    var books = PopulateSearchedBooks(textSearched.Text);
-                    if (books.Count > 0)
+                    if (textSearched.Text != null)
                     {
-                        sender.ItemsSource = books;
-                    }
-                    else
-                        sender.ItemsSource = new string[] { "No results found" };
-                }
+                        if (ListOfBooks == null)
+                            ListOfBooks = ViewModel.GetBooksList();
 
+                        var books = PopulateSearchedBooks(textSearched.Text);
+                        if (books != null && books.Count > 0)
+                        {
+                            sender.ItemsSource = books;
+                        }
+                        else
+                            sender.ItemsSource = new string[] { "No results found" };
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogError.TrackError(ex, "MainPage->AutoSuggestBox_TextChanged");
             }
         }
 
         private void AutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            
-            if (!string.IsNullOrEmpty(args.QueryText))
+            try
             {
-                //Do a fuzzy search based on the text
-                var suggestions = PopulateSearchedBooks(sender.Text);
-                if (suggestions.Count > 0)
+                if (!string.IsNullOrEmpty(args.QueryText))
                 {
-                    sender.ItemsSource = suggestions.FirstOrDefault();
+                    //Do a fuzzy search based on the text
+                    var suggestions = PopulateSearchedBooks(sender.Text);
+                    if (suggestions.Count > 0)
+                    {
+                        sender.ItemsSource = suggestions.FirstOrDefault();
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                LogError.TrackError(ex, "MainPage->AutoSuggestBox_QuerySubmitted");
             }
         }
 
         private void AutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
-            if (args.SelectedItem is Books control)
+            try
             {
-                sender.Text = control.BookName;
-                AppSettings.BookID = Convert.ToInt32(control.BookID);
-                NavigationService.Navigate(typeof(BookDetailsPage));
+                if (args.SelectedItem is Books control)
+                {
+                    sender.Text = control.Title;
+                    AppSettings.BookID = Convert.ToInt32(control.BookID);
+                    NavigationService.Navigate(typeof(BookDetailsPage));
+                }
+            }
+            catch (Exception ex)
+            {
+                LogError.TrackError(ex, "MainPage->AutoSuggestBox_SuggestionChosen");
             }
         }
 
         public List<Books> PopulateSearchedBooks(string textSearched)
         {
             List<Books> searchedBooks = new List<Books>();
-            if (textSearched != null && textSearched.Length >= 3)
+            try
             {
                 if (ListOfBooks != null && ListOfBooks.Count > 0)
                 {
-                    searchedBooks = ListOfBooks.Where(x => x.BookName.ToLower().Contains(textSearched)).ToList();
+                    searchedBooks = ListOfBooks.Where(x => x.Title.ToLower().Contains(textSearched)).ToList();
 
                     if (searchedBooks.Count > 0)
                     {
                         return searchedBooks;
                     }
                 }
+
             }
+            catch (Exception ex)
+            {
+                LogError.TrackError(ex, "MainPage->AutoSuggestBox_SuggestionChosen");
+            }
+
             return searchedBooks;
         }
     }

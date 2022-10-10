@@ -58,7 +58,7 @@ namespace BookLibrary1.ViewModels
             try
             {
                 AppSettings.BookID = 0;
-                ListOfBooks = new IncrementalLoadingCollection<BookSource, Books>(5);
+                ListOfBooks = new IncrementalLoadingCollection<BookSource, Books>(30);
             }
             catch (System.Exception ex)
             {
@@ -90,7 +90,7 @@ namespace BookLibrary1.ViewModels
 
 
                 // Simulates a longer request...
-                await Task.Delay(1000);
+                //await Task.Delay(1000);
 
                 return result;
             }

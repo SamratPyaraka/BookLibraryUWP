@@ -20,11 +20,11 @@
                 <AutoSuggestBox PlaceholderText="Search" QueryIcon="Find" Width="200" Height="50"
                         TextChanged="AutoSuggestBox_TextChanged" HorizontalAlignment="Left" VerticalAlignment="Top"
                         QuerySubmitted="AutoSuggestBox_QuerySubmitted" Margin="40,0,100,0" Text="{Binding TextSearched, Mode=TwoWay}"
-                        SuggestionChosen="AutoSuggestBox_SuggestionChosen" x:Name="textSearched" ItemsSource="{Binding ListOfBooks,Mode=TwoWay}">
+                        SuggestionChosen="AutoSuggestBox_SuggestionChosen" x:Name="textSearched" ItemsSource="{Binding ListOfBooks,Mode=OneWay}">
                     <AutoSuggestBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Margin="10">
-                                <TextBlock Text="{Binding BookName,Mode=TwoWay}" FontWeight="Bold" HorizontalAlignment="Center"
+                                <TextBlock Text="{Binding Title,Mode=OneWay}" FontWeight="Bold" HorizontalAlignment="Center"
                                    Style="{StaticResource BaseTextBlockStyle}" />
                             </StackPanel>
                         </DataTemplate>
@@ -45,15 +45,15 @@
         <GridView  ItemsSource="{Binding ListOfBooks,Mode=TwoWay}" SelectionChanged="GridView_SelectionChanged"
                    SelectedItem="{Binding OnBookSelected}" HorizontalAlignment="Center"
                    x:Name="gridView" HorizontalContentAlignment="Center"
-                   Margin="0,100,0,0" ItemClick="gridView_ItemClick"
+                   Margin="0,50,0,0" ItemClick="gridView_ItemClick"
                    IncrementalLoadingTrigger="Edge" IncrementalLoadingThreshold="0.1" DataFetchSize="2">
             <GridView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Margin="10">
-                        <Image Source="{Binding BookImageURL,Mode=TwoWay}" Height="300"/>
-                        <TextBlock Text="{Binding BookName,Mode=TwoWay}" FontWeight="Bold" HorizontalAlignment="Center"
+                    <StackPanel Margin="10" Width="200">
+                        <Image Source="{Binding ImageURL,Mode=TwoWay}" Height="300"/>
+                        <TextBlock Text="{Binding Title,Mode=TwoWay}" FontWeight="Bold" HorizontalAlignment="Center"
                                    Style="{StaticResource BaseTextBlockStyle}" />
-                        <TextBlock Text="{Binding BookDescription,Mode=TwoWay}" TextWrapping="NoWrap" 
+                        <TextBlock Text="{Binding Description,Mode=TwoWay}" TextWrapping="NoWrap" 
                                    Style="{StaticResource BodyTextBlockStyle}" HorizontalAlignment="Center"/>
                     </StackPanel>
                 </DataTemplate>
