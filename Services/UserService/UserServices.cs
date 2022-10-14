@@ -36,9 +36,9 @@ namespace BookLibrary1.Services.UserService
             return userInfo;
         }
 
-        public async Task<APIResponse> GetUserFromEmail(string email)
+        public async Task<UserResponse<User>> GetUserFromEmail(string email)
         {
-            APIResponse userInfo = new APIResponse();
+            UserResponse<User> userInfo = new UserResponse<User>();
             try
             {
                 UriBuilder uriBuilder = new UriBuilder(AppSettings.GetUserFromEmailUri);
@@ -46,7 +46,7 @@ namespace BookLibrary1.Services.UserService
                 query["email"] = email;
                 uriBuilder.Query = query.ToString();
                 string uri = uriBuilder.ToString();
-                userInfo = await _requestService.GetAsync<APIResponse>(uri);
+                userInfo = await _requestService.GetAsync<UserResponse<User>>(uri);
             }
             catch (Exception ex)
             {
@@ -162,6 +162,43 @@ namespace BookLibrary1.Services.UserService
                 UriBuilder uriBuilder = new UriBuilder(AppSettings.CreateNewBookUri);
                 string uri = uriBuilder.ToString();
                 bookUpdateDetails = await _requestService.PostAsync<Books, APIResponse>(uri, books);
+                AppSettings.BookID = 0;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return bookUpdateDetails;
+        }
+        public async Task<List<BookRecords>> GetBooksByUserID(int userID)
+        {
+            List<BookRecords> bookUpdateDetails = new List<BookRecords>();
+            try
+            {
+                UriBuilder uriBuilder = new UriBuilder(AppSettings.GetBooksByUserIDUri);
+                System.Collections.Specialized.NameValueCollection query = HttpUtility.ParseQueryString(uriBuilder.Query);
+                query["userID"] = userID.ToString();
+                uriBuilder.Query = query.ToString();
+                string uri = uriBuilder.ToString();
+                bookUpdateDetails = await _requestService.GetAsync<List<BookRecords>>(uri);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return bookUpdateDetails;
+        }
+
+        public async Task<APIResponse> PostOrderDetails(OrderDetails books)
+        {
+            APIResponse bookUpdateDetails = new APIResponse();
+            try
+            {
+                UriBuilder uriBuilder = new UriBuilder(AppSettings.PostOrderUri);
+                string uri = uriBuilder.ToString();
+                bookUpdateDetails = await _requestService.PostAsync<OrderDetails, APIResponse>(uri, books);
                 AppSettings.BookID = 0;
             }
             catch (Exception ex)

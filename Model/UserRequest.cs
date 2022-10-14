@@ -28,4 +28,13 @@ namespace BookLibrary1.Model
         public int Status { get; set; }
         public object Data { get; set; }
     }
+
+    public class UserResponse<T>
+    {
+        public bool Response { get; set; }
+        public string ResponseMessage { get; set; }
+
+        public int Status { get; set; }
+        public T Data { get; set; }
+    }
 }

@@ -27,30 +27,19 @@
         ExpandedModeThresholdWidth="1280"
         Background="{ThemeResource SystemControlBackgroundAltHighBrush}">
         <winui:NavigationView.MenuItems>
-            <!--
-            TODO: Change the symbols for each item as appropriate for your app
-            More on Segoe UI Symbol icons: https://docs.microsoft.com/windows/uwp/style/segoe-ui-symbol-font
-            Or to use an IconElement instead of a Symbol see https://github.com/microsoft/TemplateStudio/blob/main/docs/UWP/projectTypes/navigationpane.md
-            Edit String/en-US/Resources.resw: Add a menu item title for each page
-            -->
-            <winui:NavigationViewItem x:Uid="Shell_Main" Icon="Document" helpers:NavHelper.NavigateTo="views:MainPage" />
-            <!--<winui:NavigationViewItem x:Uid="Shell_Blank" Icon="Document" helpers:NavHelper.NavigateTo="views:BlankPage" />
-            <winui:NavigationViewItem x:Uid="Shell_ListDetails" Icon="Document" helpers:NavHelper.NavigateTo="views:ListDetailsPage" />
-            <winui:NavigationViewItem x:Uid="Shell_Registration" Icon="Document" helpers:NavHelper.NavigateTo="views:RegistrationPage" />
-          <winui:NavigationViewItem x:Uid="Shell_BookDetails" Icon="Document" helpers:NavHelper.NavigateTo="views:BookDetailsPage" />-->
-            <!--<winui:NavigationViewItem x:Uid="Shell_LoginDetails" Icon="Document" helpers:NavHelper.NavigateTo="views:LoginDetailsPage" />-->
-            <!--<winui:NavigationViewItem x:Uid="Shell_BookDetails" Icon="Document" helpers:NavHelper.NavigateTo="views:BookDetailsPage" />-->
+            <winui:NavigationViewItem x:Uid="Shell_Main" Icon="Home" helpers:NavHelper.NavigateTo="views:MainPage" />
+            <!--<winui:NavigationViewItem x:Uid="Shell_BookDetails" Icon="NewFolder" helpers:NavHelper.NavigateTo="views:BookDetailsPage" />-->
+            <winui:NavigationViewItem x:Uid="Shell_UserAccountInfo" Icon="Account" helpers:NavHelper.NavigateTo="views:UserAccountInfoPage" />
+            <winui:NavigationViewItem x:Uid="Shell_CreateNewBook" Icon="Add" helpers:NavHelper.NavigateTo="views:CreateNewBookPage" />
+            <winui:NavigationViewItem x:Uid="Shell_BookKeeper" Icon="Scan" helpers:NavHelper.NavigateTo="views:BookKeeperPage" />
+            <!--<winui:NavigationViewItem x:Uid="Shell_Checkout" Icon="Document" helpers:NavHelper.NavigateTo="views:CheckoutPage" />-->
         </winui:NavigationView.MenuItems>
         <i:Interaction.Behaviors>
-            <behaviors:NavigationViewHeaderBehavior
-                DefaultHeader="{x:Bind ViewModel.Selected.Content, Mode=OneWay}">
+            <behaviors:NavigationViewHeaderBehavior DefaultHeader="{x:Bind ViewModel.Selected.Content}">
                 <behaviors:NavigationViewHeaderBehavior.DefaultHeaderTemplate>
                     <DataTemplate>
                         <Grid Visibility="Collapsed">
-                            <TextBlock
-                                Text="{Binding}"
-                                Style="{ThemeResource TitleTextBlockStyle}"
-                                Margin="{StaticResource SmallLeftRightMargin}" />
+                            <TextBlock Text="{Binding}" FontSize="1" />
                         </Grid>
                     </DataTemplate>
                 </behaviors:NavigationViewHeaderBehavior.DefaultHeaderTemplate>
@@ -59,8 +48,27 @@
                 <ic:InvokeCommandAction Command="{x:Bind ViewModel.ItemInvokedCommand}" />
             </ic:EventTriggerBehavior>
         </i:Interaction.Behaviors>
-        <Grid>
-            <Frame x:Name="shellFrame" />
+        <Grid Margin="0,-60,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="80"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel  Height="80" Grid.Row="0" HorizontalAlignment="Right" Margin="0,0,20,0">
+                <Button UseLayoutRounding="True" CornerRadius="40" Padding="0" Command="{Binding OnUserIconClickCmd}"
+                        HorizontalAlignment="Center">
+                    <Ellipse Height="50" Width="50" HorizontalAlignment="Right" >
+                        <Ellipse.Fill>
+                            <ImageBrush ImageSource="{Binding UserIconUrl, Mode=TwoWay}" />
+                        </Ellipse.Fill>
+                    </Ellipse>
+                </Button>
+                <TextBlock Margin="0,10,0,0"
+                        Text="{Binding UserName, Mode=TwoWay}" FontSize="14" 
+                        Style="{ThemeResource TitleTextBlockStyle}"    />
+
+            </StackPanel>
+            <Frame x:Name="shellFrame" Grid.Row="1"/>
+
         </Grid>
     </winui:NavigationView>
 </Page>

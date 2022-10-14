@@ -10,12 +10,16 @@ namespace BookLibrary1.Services.UserService
     public interface IUserServices
     {
         Task<APIResponse> CreateUser(UserRequest ur);
-        Task<APIResponse> GetUserFromEmail(string email);
+        Task<UserResponse<User>> GetUserFromEmail(string email);
         Task<List<Books>> GetBooks();
         Task<List<Books>> GetLimitedBooks(int? skip, int? take);
         Task<Books> GetBooks(int bookID);
         Task<APIResponse> UpdateBookDetails(Books books);
         Task<APIResponse> UpdateBookStatus(int bookID);
         Task<APIResponse> CreateNewBook(Books books);
+
+        Task<List<BookRecords>> GetBooksByUserID(int userID);
+
+        Task<APIResponse> PostOrderDetails(OrderDetails books);
     }
 }

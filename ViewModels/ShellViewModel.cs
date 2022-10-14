@@ -6,8 +6,7 @@ using System.Windows.Input;
 
 using BookLibrary1.Helpers;
 using BookLibrary1.Services;
-
-
+using BookLibrary1.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -45,12 +44,35 @@ namespace BookLibrary1.ViewModels
         }
 
         public ICommand LoadedCommand => _loadedCommand ?? (_loadedCommand = new RelayCommand(OnLoaded));
+        public ICommand OnUserIconClickCmd => new RelayCommand(NavigateToAccount);
+        private void NavigateToAccount()
+        {
+            NavigationService.Navigate(typeof(UserAccountInfoPage));
+        }
 
         public ICommand ItemInvokedCommand => _itemInvokedCommand ?? (_itemInvokedCommand = new RelayCommand<WinUI.NavigationViewItemInvokedEventArgs>(OnItemInvoked));
 
         public ShellViewModel()
         {
         }
+
+        private string _UserName;
+
+        public string UserName
+        {
+            get { return _UserName; }
+            set {
+                 SetProperty(ref _UserName, value); OnPropertyChanged(); }
+        }
+
+        private string _UserIconUrl;
+
+        public string UserIconUrl
+        {
+            get { return _UserIconUrl; }
+            set { SetProperty(ref _UserIconUrl , value); OnPropertyChanged(); }
+        }
+
 
         public void Initialize(Frame frame, WinUI.NavigationView navigationView, IList<KeyboardAccelerator> keyboardAccelerators)
         {
@@ -60,6 +82,9 @@ namespace BookLibrary1.ViewModels
             NavigationService.NavigationFailed += Frame_NavigationFailed;
             NavigationService.Navigated += Frame_Navigated;
             _navigationView.BackRequested += OnBackRequested;
+
+            UserIconUrl = AppSettings.IDTokenPayLoad.Picture;
+            UserName = "Welcome "+AppSettings.IDTokenPayLoad.GivenName;
         }
 
         private async void OnLoaded()

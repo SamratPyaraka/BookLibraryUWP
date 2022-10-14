@@ -7,6 +7,7 @@ using BookLibrary1.Services;
 using BookLibrary1.ViewModels;
 using Microsoft.Toolkit.Uwp;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 using static BookLibrary1.ViewModels.MainViewModel;
 
 namespace BookLibrary1.Views
@@ -20,7 +21,11 @@ namespace BookLibrary1.Views
             InitializeComponent();
             DataContext = ViewModel;
             ViewModel.Initialize(shellFrame, KeyboardAccelerators);
+            NavigationCacheMode = NavigationCacheMode.Enabled;
         }
+
+        
+        
 
         private void GridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

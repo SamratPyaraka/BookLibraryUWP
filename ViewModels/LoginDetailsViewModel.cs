@@ -19,6 +19,7 @@ namespace BookLibrary1.ViewModels
 
         public async void Initialize(object shellFrame, IList<KeyboardAccelerator> keyboardAccelerators)
         {
+            IsBusy = true;
             try
             {
                 var _requestService = Locator.Instance.Resolve<IRequestService>();
@@ -32,6 +33,7 @@ namespace BookLibrary1.ViewModels
             {
                 LogError.TrackError(ex, "LoginDetailsViewModel->Initialize");
             }
+            finally { IsBusy = false; }
 
         }
 

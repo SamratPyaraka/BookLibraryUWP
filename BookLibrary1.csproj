@@ -166,7 +166,9 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <PRIResource Include="Strings\en-us\Resources.resw" />
+    <PRIResource Include="Strings\en-us\Resources.resw">
+      <SubType>Designer</SubType>
+    </PRIResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Activation\ActivationHandler.cs" />
@@ -176,8 +178,12 @@
     <Compile Include="Helpers\LogError.cs" />
     <Compile Include="Helpers\NavHelper.cs" />
     <Compile Include="ISettingsExtensions.cs" />
+    <Compile Include="Model\BookRecords.cs" />
     <Compile Include="Model\Books.cs" />
+    <Compile Include="Model\FieldValidation.cs" />
     <Compile Include="Model\GoogleUser.cs" />
+    <Compile Include="Model\OrderDetails.cs" />
+    <Compile Include="Model\User.cs" />
     <Compile Include="Model\UserRequest.cs" />
     <Compile Include="Services\ActivationService.cs" />
     <Compile Include="Activation\DefaultActivationHandler.cs" />
@@ -186,15 +192,31 @@
     <Compile Include="Services\RequestService\RequestService.cs" />
     <Compile Include="Services\UserService\IUserServices.cs" />
     <Compile Include="Services\UserService\UserServices.cs" />
+    <Compile Include="Controls\ValidationTextBox.cs" />
+    <Compile Include="ViewModels\Base\INotifyScrollToProperty.cs" />
     <Compile Include="ViewModels\Base\Locator.cs" />
+    <Compile Include="ViewModels\Base\ValidationBase.cs" />
     <Compile Include="ViewModels\BookDetailsViewModel.cs" />
+    <Compile Include="ViewModels\BookKeeperViewModel.cs" />
+    <Compile Include="ViewModels\CheckoutViewModel.cs" />
+    <Compile Include="ViewModels\CreateNewBookViewModel.cs" />
     <Compile Include="ViewModels\LoginDetailsViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\RegistrationViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="ViewModels\Base\ViewModelBase.cs" />
+    <Compile Include="ViewModels\UserAccountInfoViewModel.cs" />
     <Compile Include="Views\BookDetailsPage.xaml.cs">
       <DependentUpon>BookDetailsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BookKeeperPage.xaml.cs">
+      <DependentUpon>BookKeeperPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CheckoutPage.xaml.cs">
+      <DependentUpon>CheckoutPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CreateNewBookPage.xaml.cs">
+      <DependentUpon>CreateNewBookPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LoginDetailsPage.xaml.cs">
       <DependentUpon>LoginDetailsPage.xaml</DependentUpon>
@@ -208,6 +230,9 @@
     <Compile Include="Views\ShellPage.xaml.cs">
       <DependentUpon>ShellPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\UserAccountInfoPage.xaml.cs">
+      <DependentUpon>UserAccountInfoPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -216,6 +241,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Controls\ValidationTextBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Styles\Page.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -240,6 +269,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\BookKeeperPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\CheckoutPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\CreateNewBookPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\LoginDetailsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -253,6 +294,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ShellPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserAccountInfoPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -335,6 +380,10 @@
   <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+    <LangVersion>9.0</LangVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

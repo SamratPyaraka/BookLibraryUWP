@@ -1,0 +1,54 @@
+﻿<Page
+    x:Class="BookLibrary1.Views.BookKeeperPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Style="{StaticResource PageStyle}" xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls" xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    mc:Ignorable="d">
+    <Grid x:Name="shellFrame" Margin="{StaticResource MediumLeftRightMargin}">
+        <Grid>
+            <controls:DataGrid x:Name="dataGrid1" 
+                Height="600" Margin="12" SelectionChanged="dataGrid1_SelectionChanged"
+                AutoGenerateColumns="False"
+                ItemsSource="{Binding BookList}">
+                <controls:DataGrid.Columns>
+                    <controls:DataGridTextColumn 
+                        Header="ISBN" 
+                        Width="SizeToHeader"
+                        Binding="{Binding ISBN}" 
+                        FontSize="14" />
+                    <controls:DataGridTextColumn 
+                        Header="Book Name" 
+                        Width="SizeToCells"
+                        Binding="{Binding Title}" 
+                        FontSize="14" />
+                    <controls:DataGridTextColumn 
+                        Header="Owned / Bowwored" 
+                        Width="SizeToCells"
+                        Binding="{Binding OwnBorrow}" 
+                        FontSize="14" />
+                    <controls:DataGridTextColumn 
+                        Header="Amount" 
+                        Width="SizeToCells"
+                        Binding="{Binding Amount}" 
+                        FontSize="14" />
+                    <controls:DataGridTextColumn 
+                        Header="Valid Till" 
+                        Width="SizeToCells"
+                        Binding="{Binding ValidTill}" 
+                        FontSize="14" />
+                    <controls:DataGridTextColumn 
+                        Header="Purchased On" 
+                        Width="SizeToCells"
+                        Binding="{Binding PurchasedOn}" 
+                        FontSize="14" />
+                     
+                </controls:DataGrid.Columns>
+            </controls:DataGrid>
+        </Grid>
+
+        <muxc:ProgressRing IsActive="{Binding IsBusy}" VerticalAlignment="Center" HorizontalAlignment="Center"
+                           Height="100" Width="100"/>
+    </Grid>
+</Page>

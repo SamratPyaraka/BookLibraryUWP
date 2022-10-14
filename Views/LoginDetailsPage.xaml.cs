@@ -163,6 +163,7 @@ namespace BookLibrary1.Views
                     var res = await userService.GetUserFromEmail(AppSettings.IDTokenPayLoad.Email);
                     if (res.Response)
                     {
+                        AppSettings.Account = res.Data;
                         NavigationService.Navigate(typeof(ShellPage));
                     }
                     else

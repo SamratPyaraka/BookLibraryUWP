@@ -6,16 +6,15 @@ using Windows.UI.Xaml.Controls;
 
 namespace BookLibrary1.Views
 {
-    public sealed partial class BookDetailsPage : Page
+    public sealed partial class CheckoutPage : Page
     {
-        public BookDetailsViewModel ViewModel { get; } = new BookDetailsViewModel();
+        public CheckoutViewModel ViewModel { get; } = new CheckoutViewModel();
 
-        public BookDetailsPage()
+        public CheckoutPage()
         {
             InitializeComponent();
             DataContext = ViewModel;
             ViewModel.Initialize(shellFrame, KeyboardAccelerators);
         }
-
     }
 }

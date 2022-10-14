@@ -53,24 +53,35 @@ namespace BookLibrary1.ViewModels
             return ListOfBooks;
         }
 
-        public async void Initialize(object shellFrame, IList<KeyboardAccelerator> keyboardAccelerators)
+        public void Initialize(object shellFrame, IList<KeyboardAccelerator> keyboardAccelerators)
         {
+            IsBusy = true;
             try
             {
                 AppSettings.BookID = 0;
-                ListOfBooks = new IncrementalLoadingCollection<BookSource, Books>(30);
+                ListOfBooks = new IncrementalLoadingCollection<BookSource, Books>(20);
+                //ListOfBooks = new IncrementalLoadingCollection<BookSource, Books>(20, GetBooks);
             }
             catch (System.Exception ex)
             {
                 LogError.TrackError(ex, "MainViewModel->Initialize");
             }
-
+            finally { IsBusy = false; }
         }
 
         public ICommand CreateBookCmd => new RelayCommand(CreateBook);
-        public async void CreateBook()
+        public void CreateBook()
         {
             NavigationService.Navigate(typeof(BookDetailsPage));
+        }
+
+        private async void GetBooks()
+        {
+            var listOfBooks = await userServices.GetLimitedBooks(0, 1);
+            foreach(var book in listOfBooks)
+            {
+                ListOfBooks.Add(book);
+            }
         }
 
         public class BookSource : ViewModelBase, IIncrementalSource<Books>
@@ -78,20 +89,16 @@ namespace BookLibrary1.ViewModels
             private List<Books> ListOfBooks;
             public BookSource()
             {
-
+                ListOfBooks = new List<Books>();
             }
-            public async Task<IEnumerable<Books>> GetPagedItemsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default)
+            public async Task<IEnumerable<Books>> GetPagedItemsAsync(int pageIndex, int pageSize,
+                CancellationToken cancellationToken = default)
             {
-
+                IsBusy= true;
                 ListOfBooks = await userServices.GetLimitedBooks(pageIndex * pageSize, pageSize);
                 // Gets items from the collection according to pageIndex and pageSize parameters.
-                var result = (from p in ListOfBooks
-                              select p);
-
-
-                // Simulates a longer request...
-                //await Task.Delay(1000);
-
+                var result = (from p in ListOfBooks select p);
+                IsBusy= false;  
                 return result;
             }
         }

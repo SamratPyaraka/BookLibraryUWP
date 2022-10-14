@@ -1,13 +1,18 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System;
+using System.Collections.Generic;
+using BookLibrary1.Services;
+using BookLibrary1.Views;
+using CommunityToolkit.Mvvm.Input;
+using System.Windows.Input;
 
 namespace BookLibrary1.Model
 {
     public class Books
     {
         public int BookID { get; set; }
-
+        public int Amount { get; set; }
         public string Title { get; set; }
 
         public string Subtitle { get; set; }
@@ -31,6 +36,12 @@ namespace BookLibrary1.Model
         public string InsertedBy { get; set; } = "";
         public DateTime LastUpdatedDate { get; set; }
         public string LastUpdatedBy { get; set; } = "";
+
+        public ICommand RentOrPurchaseCmd => new RelayCommand(RentOrPurchase);
+        public void RentOrPurchase()
+        {
+            NavigationService.Navigate(typeof(CheckoutPage));
+        }
 
     }
 

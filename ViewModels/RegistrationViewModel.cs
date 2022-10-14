@@ -9,6 +9,7 @@ using System;
 using System.Buffers.Text;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI.Popups;
@@ -78,6 +79,7 @@ namespace BookLibrary1.ViewModels
 
         private async void Register()
         {
+            IsBusy = true;
             try
             {
                 UserRequest userRequest = new UserRequest
@@ -91,7 +93,8 @@ namespace BookLibrary1.ViewModels
                 var response = await userServices.CreateUser(userRequest);
                 if (response.Response)
                 {
-
+                    var req = (User)response.Data;
+                    AppSettings.Account = req;
                     // Create the message dialog and set its content
                     await new MessageDialog(response.ResponseMessage, "").ShowAsync();
                     NavigationService.Navigate(typeof(ShellPage));
@@ -104,8 +107,9 @@ namespace BookLibrary1.ViewModels
             }
             catch (Exception ex)
             {
+                LogError.TrackError(ex, "RegistrationViewModel");
             }
-            
+            finally { IsBusy=false; }
         }
 
 

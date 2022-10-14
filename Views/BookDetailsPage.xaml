@@ -3,70 +3,127 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     Style="{StaticResource PageStyle}"
     mc:Ignorable="d">
     <Grid x:Name="shellFrame" Margin="{StaticResource MediumLeftRightMargin}">
-        <TextBlock Text="Book Details" FontWeight="Bold" FontSize="36" HorizontalAlignment="Center" Margin="0,50,0,0"
-                    Style="{StaticResource BaseTextBlockStyle}" Grid.Column="0" Grid.Row="1"/>
-        <ScrollViewer>
-        <Grid Margin="0,100,0,0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="200" />
-                <RowDefinition Height="60" />
-                <RowDefinition Height="60" />
-                <RowDefinition Height="60" />
-                <RowDefinition Height="60" />
-                <RowDefinition Height="60" />
-                <RowDefinition Height="60" />
-                <RowDefinition Height="60" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Image Source="{Binding BookImageURL}" Height="200" Grid.Row="0" Grid.Column="0"/>
+        <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <GridView ItemsSource="{Binding BookDetails, Mode=TwoWay}" Grid.Row="1">
+            <GridView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="{StaticResource MediumLeftRightMargin}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="60" />
+                                <RowDefinition Height="60" />
+                                <RowDefinition Height="60" />
+                                <RowDefinition Height="60" />
+                                <RowDefinition Height="60" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="600" />
+                                <ColumnDefinition Width="400" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding Title,Mode=TwoWay}"  Style="{StaticResource HeaderTextBlockStyle}" TextWrapping="NoWrap" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"/>
+                            <TextBlock Text="{Binding Subtitle,Mode=TwoWay}"  Style="{StaticResource SubheaderTextBlockStyle}" FontSize="18"  TextWrapping="NoWrap" Grid.Column="0" Grid.Row="1" />
+                            <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
+                                <TextBlock Text="By "  Style="{StaticResource BaseTextBlockStyle}"  />
+                                <TextBlock Text="{Binding Authors,Mode=TwoWay}"  Style="{StaticResource BaseTextBlockStyle}" Margin="5,0"/>
+                                <TextBlock Text=" . " FontWeight="Bold" Style="{StaticResource BaseTextBlockStyle}"  />
+                                <TextBlock Text="{Binding PublishedYear,Mode=TwoWay}"  Style="{StaticResource BaseTextBlockStyle}"  />
+                            </StackPanel>
+                            <Button Grid.Row="3" Grid.Column="0" Style="{StaticResource AccentButtonStyle}" Command="{Binding RentOrPurchaseCmd}">
+                                <TextBlock Text="Rent  / Purchase" Style="{StaticResource BaseTextBlockStyle}"   />
+                            </Button>
+                            <Image Source="{Binding ImageURL}" Height="210" Grid.Row="1" Grid.Column="1" Grid.RowSpan="4"/>
+                        </Grid>
+                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="{StaticResource MediumLeftRightMargin}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="60" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="600" />
+                                <ColumnDefinition Width="400" />
+                            </Grid.ColumnDefinitions>
 
+                            <TextBlock Text="About this edition" FontWeight="Bold"
+                                   Style="{StaticResource BodyTextBlockStyle}"  Grid.Column="0" Grid.Row="0"  />
+                            <Grid Grid.Row="1" Grid.Column="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30" />
+                                    <RowDefinition Height="30" />
+                                    <RowDefinition Height="30" />
+                                    <RowDefinition Height="30" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="230"/>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="ISBN:"  Style="{StaticResource BodyTextBlockStyle}"  Grid.Column="0" Grid.Row="0" Foreground="Gray" />
+                                <TextBlock Text="{Binding ISBN13}"  Style="{StaticResource BodyTextBlockStyle}"  Grid.Column="1" Grid.Row="0"  />
 
-            <Button Width="50" Height="50" Command="{Binding DeleteBookCmd}" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Right">
-                <Image Source="{Binding DeleteIcon}" Stretch="Fill" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="True"/>
-            </Button>
+                                <TextBlock Text="Page Count:"  Style="{StaticResource BodyTextBlockStyle}"  Grid.Column="2" Grid.Row="0"  Foreground="Gray"/>
+                                <TextBlock Text="{Binding NumberOfPages}"  Style="{StaticResource BodyTextBlockStyle}"  Grid.Column="3" Grid.Row="0"  />
 
+                                <TextBlock Text="Published:"  Style="{StaticResource BodyTextBlockStyle}"  Grid.Column="0" Grid.Row="1" Foreground="Gray" />
+                                <TextBlock Text="{Binding PublishedYear}"  Style="{StaticResource BodyTextBlockStyle}"  Grid.Column="1" Grid.Row="1"  />
 
-            <TextBlock Text="Book Name" FontWeight="Bold" FontSize="18" HorizontalAlignment="Left"
-                    Style="{StaticResource BaseTextBlockStyle}" Grid.Column="0" Grid.Row="1"/>
-            <TextBox Text="{Binding BookName,Mode=TwoWay}" FontWeight="Bold"  Grid.Column="1" Grid.Row="1" />
-            <Button Width="50" Command="{Binding BookNameEdit}" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Right">
-                <Image Source="{Binding EditImage}" Stretch="Fill" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="True" />
-            </Button>
+                                <TextBlock Text="Format:"  Style="{StaticResource BodyTextBlockStyle}"  Grid.Column="2" Grid.Row="1"  Foreground="Gray"/>
+                                <TextBlock Text="English"  Style="{StaticResource BodyTextBlockStyle}"  Grid.Column="3" Grid.Row="1"  />
 
-            <TextBlock Text="Book Description" FontWeight="Bold" FontSize="18" HorizontalAlignment="Left"
-                    Style="{StaticResource BaseTextBlockStyle}" Grid.Row="2" Grid.Column="0"/>
-            <TextBox Text="{Binding BookDescription,Mode=TwoWay}" TextWrapping="NoWrap" Grid.Column="1"   Grid.Row="2"/>
-            <Button Width="50" Command="{Binding BookDescEdit}" Grid.Column="2" Grid.Row="2" HorizontalAlignment="Right">
-                <Image Source="{Binding EditImage}" Stretch="Fill" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="True" />
-            </Button>
+                                <TextBlock Text="Publisher:"  Style="{StaticResource BodyTextBlockStyle}"  Grid.Column="0" Grid.Row="2" Foreground="Gray" />
+                                <TextBlock Text="{Binding Authors}"  Style="{StaticResource BodyTextBlockStyle}"  Grid.Column="1" Grid.Row="2"  />
 
-            <TextBlock Text="Book Count" FontWeight="Bold" FontSize="18" HorizontalAlignment="Left"
-                    Style="{StaticResource BaseTextBlockStyle}" Grid.Row="3" Grid.Column="0"/>
-            <TextBox Text="{Binding BookCount,Mode=TwoWay}" TextWrapping="NoWrap" Grid.Row="3" Grid.Column="1" />
+                                <TextBlock Text="Language:"  Style="{StaticResource BodyTextBlockStyle}"  Grid.Column="2" Grid.Row="2"  Foreground="Gray"/>
+                                <TextBlock Text="English"  Style="{StaticResource BodyTextBlockStyle}"  Grid.Column="3" Grid.Row="2"  />
 
-            <TextBlock Text="Book Category" FontWeight="Bold" FontSize="18" HorizontalAlignment="Left"
-                    Style="{StaticResource BaseTextBlockStyle}" Grid.Column="0"   Grid.Row="4"/>
-            <TextBox Text="{Binding BookCategory,Mode=TwoWay}" TextWrapping="NoWrap" Grid.Column="1"   Grid.Row="4" />
+                                <TextBlock Text="Author:"  Style="{StaticResource BodyTextBlockStyle}"  Grid.Column="0" Grid.Row="3" Foreground="Gray" />
+                                <TextBlock Text="{Binding Authors}"  Style="{StaticResource BodyTextBlockStyle}"  Grid.Column="1" Grid.Row="3"  />
+                            </Grid>
+                            <TextBlock Text="About the work"  Style="{StaticResource BodyTextBlockStyle}"  Grid.Column="1" Grid.Row="0"
+                                   HorizontalAlignment="Left" FontWeight="Bold"/>
+                            <Grid Grid.Row="1" Grid.Column="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30" />
+                                    <RowDefinition Height="30" />
+                                    <RowDefinition Height="30" />
+                                    <RowDefinition Height="30" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Originally Published:"  Style="{StaticResource BodyTextBlockStyle}"  Grid.Column="0" Grid.Row="0" Foreground="Gray" />
+                                <TextBlock Text="{Binding PublishedYear}"  Style="{StaticResource BodyTextBlockStyle}"  Grid.Column="1" Grid.Row="0"  />
 
-            <TextBlock Text="Keep Type" FontWeight="Bold" FontSize="18" HorizontalAlignment="Left"
-                    Style="{StaticResource BaseTextBlockStyle}" Grid.Column="0"   Grid.Row="5"/>
-            <TextBox Text="{Binding KeepType,Mode=TwoWay}" TextWrapping="NoWrap" Grid.Column="1"   Grid.Row="5"/>
+                                <TextBlock Text="Genre:"  Style="{StaticResource BodyTextBlockStyle}"  Grid.Column="0" Grid.Row="1"  Foreground="Gray"/>
+                                <TextBlock Text="{Binding Category}"  Style="{StaticResource BodyTextBlockStyle}"  Grid.Column="1" Grid.Row="1"  />
 
+                                <TextBlock Text="Adaptations:"  Style="{StaticResource BodyTextBlockStyle}"  Grid.Column="0" Grid.Row="2" Foreground="Gray" />
+                                <TextBlock Text="{Binding Authors}"  Style="{StaticResource BodyTextBlockStyle}"  Grid.Column="1" Grid.Row="2"  />
 
-            <Button Width="150" Command="{Binding CreateBookCmd}"  HorizontalAlignment="Center" Grid.Row="6" Grid.ColumnSpan="3">
-                <!--<Image Source="{Binding DeleteIcon}" Stretch="Fill" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="True"/>-->
-                <TextBlock Text="Submit" FontWeight="Bold" FontSize="18" HorizontalAlignment="Center"
-                    Style="{StaticResource BaseTextBlockStyle}"/>
-            </Button>
+                                <TextBlock Text="Subject:"  Style="{StaticResource BodyTextBlockStyle}"  Grid.Column="0" Grid.Row="3"  Foreground="Gray"/>
+                                <TextBlock Text="{Binding Category}"  Style="{StaticResource BodyTextBlockStyle}"  Grid.Column="1" Grid.Row="3"  />
+                            </Grid>
+                            <TextBlock Text="{Binding Description,Mode=TwoWay}"  Style="{StaticResource BodyTextBlockStyle}"  Grid.Column="0" Grid.Row="2"  />
+                        </Grid>
+                    </StackPanel>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+        </GridView>
         </Grid>
-        </ScrollViewer>
+        <muxc:ProgressRing IsActive="{Binding IsBusy}" VerticalAlignment="Center" HorizontalAlignment="Center"
+                           Height="100" Width="100" Grid.Row="0"/>
     </Grid>
 </Page>

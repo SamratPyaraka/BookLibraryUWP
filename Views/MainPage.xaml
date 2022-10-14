@@ -5,7 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodels="using:BookLibrary1.ViewModels"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls" xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
     Style="{StaticResource PageStyle}"
     mc:Ignorable="d">
@@ -33,24 +33,20 @@
                 </AutoSuggestBox>
             </Grid>
 
-            <TextBlock Text="List Of Books" FontWeight="Bold" FontSize="36" HorizontalAlignment="Center"
+            <TextBlock Text="List Of Books" FontWeight="Bold"  HorizontalAlignment="Center"
                     Style="{StaticResource BaseTextBlockStyle}" Margin="40,0"/>
-            <Button Width="150" Command="{Binding CreateBookCmd}"  HorizontalAlignment="Right" VerticalAlignment="Top" Margin="50,0,0,0">
-                <!--<Image Source="{Binding DeleteIcon}" Stretch="Fill" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="True"/>-->
-                <TextBlock Text="Create New Book" FontWeight="Bold" FontSize="14" HorizontalAlignment="Right" 
-                    Style="{StaticResource BaseTextBlockStyle}"/>
-            </Button>
+            
         </StackPanel>
 
         <GridView  ItemsSource="{Binding ListOfBooks,Mode=TwoWay}" SelectionChanged="GridView_SelectionChanged"
                    SelectedItem="{Binding OnBookSelected}" HorizontalAlignment="Center"
                    x:Name="gridView" HorizontalContentAlignment="Center"
                    Margin="0,50,0,0" ItemClick="gridView_ItemClick"
-                   IncrementalLoadingTrigger="Edge" IncrementalLoadingThreshold="0.1" DataFetchSize="2">
+                   IncrementalLoadingTrigger="Edge" IncrementalLoadingThreshold="0.1" DataFetchSize="30">
             <GridView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Margin="10" Width="200">
-                        <Image Source="{Binding ImageURL,Mode=TwoWay}" Height="300"/>
+                    <StackPanel Margin="10" Width="200" Height="250">
+                        <Image Source="{Binding ImageURL,Mode=TwoWay}" Height="200"/>
                         <TextBlock Text="{Binding Title,Mode=TwoWay}" FontWeight="Bold" HorizontalAlignment="Center"
                                    Style="{StaticResource BaseTextBlockStyle}" />
                         <TextBlock Text="{Binding Description,Mode=TwoWay}" TextWrapping="NoWrap" 
@@ -63,5 +59,7 @@
         <Grid>
             <Frame x:Name="shellFrame" />
         </Grid>
+        <muxc:ProgressRing IsActive="{Binding IsBusy}" VerticalAlignment="Center" HorizontalAlignment="Center"
+                           Height="100" Width="100"/>
     </Grid>
 </Page>

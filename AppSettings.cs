@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 using BookLibrary1.Model;
+using Windows.Media.Streaming.Adaptive;
 
 namespace BookLibrary1
 {
@@ -56,6 +57,8 @@ namespace BookLibrary1
         public static string UpdateBookDetailsUri => $"{DefaultEndpoint}/api/Books/UpdateBookDetails";
         public static string UpdateBookStatusUri => $"{DefaultEndpoint}/api/Books/UpdateBookStatus";
         public static string CreateNewBookUri => $"{DefaultEndpoint}/api/Books/CreateNewBook";
+        public static string GetBooksByUserIDUri => $"{DefaultEndpoint}/api/BookKeepers/GetBooksByUserID";
+        public static string PostOrderUri => $"{DefaultEndpoint}/api/BookKeepers";
 
 
 
@@ -130,12 +133,22 @@ namespace BookLibrary1
             set => Settings.AddOrUpdateValue(nameof(IDTokenPayLoad), value);
         }
 
+        public static User Account
+        {
+            get => Settings.GetValueOrDefault(nameof(Account), default(User));
+            set => Settings.AddOrUpdateValue(nameof(Account), value);
+        }
+
         public static int BookID
         {
             get => Settings.GetValueOrDefault(nameof(BookID), 0);
             set => Settings.AddOrUpdateValue(nameof(BookID), value);
         }
-
+        public static OrderDetails OrderDetails
+        {
+            get => Settings.GetValueOrDefault(nameof(OrderDetails), default(OrderDetails));
+            set => Settings.AddOrUpdateValue(nameof(OrderDetails), value);
+        }
     }
 
 }

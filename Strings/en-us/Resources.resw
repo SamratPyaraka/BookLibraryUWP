@@ -111,42 +111,26 @@
   <resheader name="version">
     <value>2.0</value>
   </resheader>
-  <!--<resheader name="reader">
+  <resheader name="reader">
     <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>-->
+  </resheader>
   <data name="AppDisplayName" xml:space="preserve">
-    <value>BookLibrary1</value>
+    <value>Book Library</value>
     <comment>Application display name</comment>
   </data>
   <data name="AppDescription" xml:space="preserve">
-    <value>BookLibrary1</value>
+    <value>Buy or borrow a book</value>
     <comment>Application description</comment>
   </data>
   <data name="Shell_Main.Content" xml:space="preserve">
-    <value>Main</value>
+    <value>Home</value>
     <comment>Navigation view item name for Main</comment>
   </data>
-  <data name="Shell_Blank.Content" xml:space="preserve">
-    <value>Blank</value>
-    <comment>Navigation view item name for Blank</comment>
-  </data>
-  <data name="ListDetails_NoSelection.Text" xml:space="preserve">
-    <value>Select an item from the list.</value>
-    <comment>No selection text for ListDetails</comment>
-  </data>
-  <data name="ListDetails.ListHeader" xml:space="preserve">
-    <value>ListDetails</value>
-    <comment>Title for ListDetailsPage</comment>
-  </data>
-  <data name="Shell_ListDetails.Content" xml:space="preserve">
-    <value>ListDetails</value>
-    <comment>Navigation view item name for ListDetails</comment>
-  </data>
   <data name="Shell_LoginDetails.Content" xml:space="preserve">
-    <value>LoginDetails</value>
+    <value>Login</value>
     <comment>Navigation view item name for LoginDetails</comment>
   </data>
   <data name="Shell_Registration.Content" xml:space="preserve">
@@ -154,7 +138,23 @@
     <comment>Navigation view item name for Registration</comment>
   </data>
   <data name="Shell_BookDetails.Content" xml:space="preserve">
-    <value>BookDetails</value>
+    <value>Book Details</value>
     <comment>Navigation view item name for BookDetails</comment>
+  </data>
+  <data name="Shell_CreateNewBook.Content" xml:space="preserve">
+    <value>Create New Book</value>
+    <comment>Navigation view item name for CreateNewBook</comment>
+  </data>
+  <data name="Shell_UserAccountInfo.Content" xml:space="preserve">
+    <value>Account Info</value>
+    <comment>Navigation view item name for UserAccountInfo</comment>
+  </data>
+  <data name="Shell_BookKeeper.Content" xml:space="preserve">
+    <value>Owned or Borrowed Books</value>
+    <comment>Navigation view item name for BookKeeper</comment>
+  </data>
+  <data name="Shell_Checkout.Content" xml:space="preserve">
+    <value>Checkout</value>
+    <comment>Navigation view item name for Checkout</comment>
   </data>
 </root>
