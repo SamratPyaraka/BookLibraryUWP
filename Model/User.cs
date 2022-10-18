@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BookLibrary1.Model
 {
@@ -20,6 +14,16 @@ namespace BookLibrary1.Model
         public string CreatedBy { get; set; }
         public DateTime? LastUpdatedOn { get; set; }
         public string LastUpdatedBy { get; set; }
+        public AccountType? AccountType { get; set; }
+    }
 
+    public enum AccountType
+    {
+        Admin,
+        User,
+        Creator,
+        Manager,
+        Agent,
+        Supervisior
     }
 }

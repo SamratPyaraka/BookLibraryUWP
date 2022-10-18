@@ -7,8 +7,7 @@
     Style="{StaticResource PageStyle}"
     mc:Ignorable="d">
     <Grid x:Name="shellFrame" Margin="{StaticResource MediumLeftRightMargin}">
-        <Grid
-            Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
+        <Grid>
             <Grid>
                 <StackPanel>
                     <TextBlock Text="UserName" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,15,0,0" />
@@ -42,7 +41,7 @@
                 </StackPanel>
             </Grid>
         </Grid>
-        <muxc:ProgressRing IsActive="{Binding IsBusy}" VerticalAlignment="Center" HorizontalAlignment="Center"
-                           Height="100" Width="100"/>
+        <!--<muxc:ProgressRing IsActive="{Binding IsBusy}" VerticalAlignment="Center" HorizontalAlignment="Center"
+                           Height="100" Width="100"/>-->
     </Grid>
 </Page>

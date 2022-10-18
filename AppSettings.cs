@@ -34,9 +34,9 @@ namespace BookLibrary1
         //public static string AndroidRedirectUrl = "com.googleusercontent.apps.844060696235-ltgivjolb8v7ioidint435qa2o8ls38d:/oauth2redirect";
 
         private static readonly AppSettings _instance = new AppSettings();
-        private static string _baseEndpointPrimary;
 
-        private static string _baseEndpoint;
+        public static readonly double ScrollVerticalOffset = 0.7;
+        public static readonly int LoadItemsOffset = 20;
 
 #if RELEASE
         public const string DefaultEndpoint = "http://localhost:5221";  

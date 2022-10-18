@@ -157,4 +157,20 @@
     <value>Checkout</value>
     <comment>Navigation view item name for Checkout</comment>
   </data>
+  <data name="Shell_BooksStore.Content" xml:space="preserve">
+    <value>Books Store</value>
+    <comment>Navigation view item name for BooksStore</comment>
+  </data>
+  <data name="Shell_Logout.Content" xml:space="preserve">
+    <value>Logout</value>
+    <comment>Navigation view item name for Logout</comment>
+  </data>
+  <data name="Shell_ManageBooks.Content" xml:space="preserve">
+    <value>Manage Books</value>
+    <comment>Navigation view item name for ManageBooks</comment>
+  </data>
+  <data name="Shell_ManageUsers.Content" xml:space="preserve">
+    <value>Manage Users</value>
+    <comment>Navigation view item name for ManageUsers</comment>
+  </data>
 </root>

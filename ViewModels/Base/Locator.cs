@@ -24,7 +24,7 @@ namespace BookLibrary1.ViewModels
 
 
             //Services
-            _containerBuilder.RegisterType<RequestService>().As<IRequestService>();
+            _containerBuilder.RegisterType<RequestService>().As<IRequestService>().SingleInstance();
             _containerBuilder.RegisterType<UserServices>().As<IUserServices>();
 
 

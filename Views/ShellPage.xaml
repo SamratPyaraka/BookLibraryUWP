@@ -25,15 +25,27 @@
         SelectedItem="{x:Bind ViewModel.Selected, Mode=OneWay}"
         IsSettingsVisible="False"
         ExpandedModeThresholdWidth="1280"
+        IsPaneVisible="{Binding IsNavMenuVisible}"
         Background="{ThemeResource SystemControlBackgroundAltHighBrush}">
         <winui:NavigationView.MenuItems>
-            <winui:NavigationViewItem x:Uid="Shell_Main" Icon="Home" helpers:NavHelper.NavigateTo="views:MainPage" />
-            <!--<winui:NavigationViewItem x:Uid="Shell_BookDetails" Icon="NewFolder" helpers:NavHelper.NavigateTo="views:BookDetailsPage" />-->
+            <winui:NavigationViewItem x:Uid="Shell_BooksStore" Icon="Home" helpers:NavHelper.NavigateTo="views:BooksStorePage" />
+            <winui:NavigationViewItem x:Uid="Shell_ManageBooks" Icon="Library" helpers:NavHelper.NavigateTo="views:ManageBooksPage" Visibility="{Binding IsAdmin}">
+                <winui:NavigationViewItem.MenuItems>
+                    <winui:NavigationViewItem x:Uid="Shell_BooksStore" Icon="Home" helpers:NavHelper.NavigateTo="views:BooksStorePage" />
+                    <winui:NavigationViewItem x:Uid="Shell_CreateNewBook" Icon="Add" helpers:NavHelper.NavigateTo="views:CreateNewBookPage"
+                                      Visibility="{Binding IsAdmin}"/>
+                </winui:NavigationViewItem.MenuItems>
+            </winui:NavigationViewItem>
+
+            <winui:NavigationViewItem x:Uid="Shell_ManageUsers" Icon="People" helpers:NavHelper.NavigateTo="views:ManageUsersPage" Visibility="{Binding IsAdmin}"/>
             <winui:NavigationViewItem x:Uid="Shell_UserAccountInfo" Icon="Account" helpers:NavHelper.NavigateTo="views:UserAccountInfoPage" />
-            <winui:NavigationViewItem x:Uid="Shell_CreateNewBook" Icon="Add" helpers:NavHelper.NavigateTo="views:CreateNewBookPage" />
-            <winui:NavigationViewItem x:Uid="Shell_BookKeeper" Icon="Scan" helpers:NavHelper.NavigateTo="views:BookKeeperPage" />
-            <!--<winui:NavigationViewItem x:Uid="Shell_Checkout" Icon="Document" helpers:NavHelper.NavigateTo="views:CheckoutPage" />-->
+            
+            <winui:NavigationViewItem x:Uid="Shell_BookKeeper" Icon="Scan" helpers:NavHelper.NavigateTo="views:BookKeeperPage"
+                                      Visibility="{Binding IsAdmin}"/>
         </winui:NavigationView.MenuItems>
+        <winui:NavigationView.FooterMenuItems>
+            <winui:NavigationViewItem x:Uid="Shell_Logout" Icon="Undo" helpers:NavHelper.NavigateTo="views:LogoutPage" />
+        </winui:NavigationView.FooterMenuItems>
         <i:Interaction.Behaviors>
             <behaviors:NavigationViewHeaderBehavior DefaultHeader="{x:Bind ViewModel.Selected.Content}">
                 <behaviors:NavigationViewHeaderBehavior.DefaultHeaderTemplate>
@@ -48,7 +60,7 @@
                 <ic:InvokeCommandAction Command="{x:Bind ViewModel.ItemInvokedCommand}" />
             </ic:EventTriggerBehavior>
         </i:Interaction.Behaviors>
-        <Grid Margin="0,-60,0,0">
+        <Grid Margin="0,0,0,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="80"/>
                 <RowDefinition Height="*"/>

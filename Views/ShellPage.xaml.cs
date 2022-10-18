@@ -16,7 +16,10 @@ namespace BookLibrary1.Views
             InitializeComponent();
             DataContext = ViewModel;
             ViewModel.Initialize(shellFrame, navigationView, KeyboardAccelerators);
-            shellFrame.Navigate(typeof(MainPage));
+            shellFrame.Navigate(typeof(LoginDetailsPage));
+            shellFrame.BackStack.Clear();
+
         }
+
     }
 }

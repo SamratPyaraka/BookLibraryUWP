@@ -56,12 +56,15 @@ namespace BookLibrary1.Services.UserService
             return userInfo;
         }
 
-        public async Task<List<Books>> GetBooks()
+        public async Task<List<Books>> GetBooks(string textToSearch)
         {
             List<Books> booksList = new List<Books>();
             try
             {
                 UriBuilder uriBuilder = new UriBuilder(AppSettings.GetBooksUri);
+                System.Collections.Specialized.NameValueCollection query = HttpUtility.ParseQueryString(uriBuilder.Query);
+                query["title"] = textToSearch.ToString();
+                uriBuilder.Query = query.ToString();
                 string uri = uriBuilder.ToString();
                 booksList = await _requestService.GetAsync<List<Books>>(uri);
             }

@@ -16,6 +16,7 @@ using System.Diagnostics;
 using BookLibrary1.Views;
 using Google.Apis.Auth;
 using Newtonsoft.Json.Linq;
+using BookLibrary1.Helpers;
 
 namespace BookLibrary1.Services.RequestService
 {
@@ -169,7 +170,8 @@ namespace BookLibrary1.Services.RequestService
 
             if (!await IsAccessTokenValid())
             {
-                NavigationService.Navigate(typeof(LoginDetailsPage));
+                //NavigationService.Navigate(typeof(LoginDetailsPage));
+                NavHelper.LogoutUser();
             }
             if (httpClient != null)
                 return httpClient;

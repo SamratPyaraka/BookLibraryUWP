@@ -198,10 +198,14 @@
     <Compile Include="ViewModels\Base\ValidationBase.cs" />
     <Compile Include="ViewModels\BookDetailsViewModel.cs" />
     <Compile Include="ViewModels\BookKeeperViewModel.cs" />
+    <Compile Include="ViewModels\BooksStoreViewModel.cs" />
     <Compile Include="ViewModels\CheckoutViewModel.cs" />
     <Compile Include="ViewModels\CreateNewBookViewModel.cs" />
     <Compile Include="ViewModels\LoginDetailsViewModel.cs" />
+    <Compile Include="ViewModels\LogoutViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\ManageBooksViewModel.cs" />
+    <Compile Include="ViewModels\ManageUsersViewModel.cs" />
     <Compile Include="ViewModels\RegistrationViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="ViewModels\Base\ViewModelBase.cs" />
@@ -212,6 +216,9 @@
     <Compile Include="Views\BookKeeperPage.xaml.cs">
       <DependentUpon>BookKeeperPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\BooksStorePage.xaml.cs">
+      <DependentUpon>BooksStorePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CheckoutPage.xaml.cs">
       <DependentUpon>CheckoutPage.xaml</DependentUpon>
     </Compile>
@@ -221,8 +228,17 @@
     <Compile Include="Views\LoginDetailsPage.xaml.cs">
       <DependentUpon>LoginDetailsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\LogoutPage.xaml.cs">
+      <DependentUpon>LogoutPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ManageBooksPage.xaml.cs">
+      <DependentUpon>ManageBooksPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ManageUsersPage.xaml.cs">
+      <DependentUpon>ManageUsersPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RegistrationPage.xaml.cs">
       <DependentUpon>RegistrationPage.xaml</DependentUpon>
@@ -273,6 +289,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\BooksStorePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\CheckoutPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -285,7 +305,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\LogoutPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ManageBooksPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ManageUsersPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -1,0 +1,63 @@
+﻿<Page
+    x:Class="BookLibrary1.Views.BooksStorePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    Style="{StaticResource PageStyle}"
+    mc:Ignorable="d">
+    <Grid x:Name="ContentArea" Margin="{StaticResource MediumLeftRightMargin}">
+
+        <StackPanel Orientation="Horizontal">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <AutoSuggestBox PlaceholderText="Search" QueryIcon="Find" Width="200" Height="50"
+                        TextChanged="AutoSuggestBox_TextChanged" HorizontalAlignment="Left" VerticalAlignment="Top"
+                        Margin="40,0,100,0" 
+                        SuggestionChosen="AutoSuggestBox_SuggestionChosen" x:Name="textSearched" ItemsSource="{x:Bind booksList,Mode=OneWay}">
+                    <AutoSuggestBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Margin="10">
+                                <TextBlock Text="{Binding Title,Mode=OneWay}" FontWeight="Bold" HorizontalAlignment="Center"
+                                   Style="{StaticResource BaseTextBlockStyle}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </AutoSuggestBox.ItemTemplate>
+
+                </AutoSuggestBox>
+            </Grid>
+
+            <TextBlock Text="List Of Books" FontWeight="Bold"  HorizontalAlignment="Center"
+                    Style="{StaticResource BaseTextBlockStyle}" Margin="40,0"/>
+
+        </StackPanel>
+
+        <GridView  SelectionChanged="gridSource_SelectionChanged" ItemsSource="{x:Bind booksList}"
+                   HorizontalAlignment="Center" x:Name="gridSource"
+                   ItemClick="gridView_ItemClick"
+                   HorizontalContentAlignment="Center" Loaded="gridView_Loaded"
+                   Margin="0,50,0,0" CornerRadius="10"
+                   IncrementalLoadingTrigger="Edge" IncrementalLoadingThreshold="0.1" DataFetchSize="30">
+            <GridView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Margin="10" Width="200" Height="250" CornerRadius="10">
+                        <Image Source="{Binding ImageURL,Mode=TwoWay}" Height="200"/>
+                        <TextBlock Text="{Binding Title,Mode=TwoWay}" FontWeight="Bold" HorizontalAlignment="Center"
+                                   Style="{StaticResource BaseTextBlockStyle}" />
+                        <TextBlock Text="{Binding Description,Mode=TwoWay}" TextWrapping="NoWrap" 
+                                   Style="{StaticResource BodyTextBlockStyle}" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+        </GridView>
+
+        <Grid>
+            <Frame x:Name="shellFrame" />
+        </Grid>
+        <muxc:ProgressRing IsActive="False" VerticalAlignment="Center" HorizontalAlignment="Center"
+                           Height="100" Width="100" x:Name="progressRing"/>
+    </Grid>
+</Page>

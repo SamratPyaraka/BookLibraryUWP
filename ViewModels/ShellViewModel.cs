@@ -11,6 +11,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
 using Windows.System;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
@@ -19,7 +20,7 @@ using WinUI = Microsoft.UI.Xaml.Controls;
 
 namespace BookLibrary1.ViewModels
 {
-    public class ShellViewModel : ObservableObject
+    public class ShellViewModel : ViewModelBase
     {
         private readonly KeyboardAccelerator _altLeftKeyboardAccelerator = BuildKeyboardAccelerator(VirtualKey.Left, VirtualKeyModifiers.Menu);
         private readonly KeyboardAccelerator _backKeyboardAccelerator = BuildKeyboardAccelerator(VirtualKey.GoBack);
@@ -70,21 +71,53 @@ namespace BookLibrary1.ViewModels
         public string UserIconUrl
         {
             get { return _UserIconUrl; }
-            set { SetProperty(ref _UserIconUrl , value); OnPropertyChanged(); }
+            set { _UserIconUrl=value; OnPropertyChanged(); }
         }
 
+        private Visibility _IsAdmin;
+
+        public Visibility IsAdmin
+        {
+            get { return _IsAdmin; }
+            set { SetProperty(ref _IsAdmin , value); OnPropertyChanged(); }
+        }
+
+        private bool _IsNavMenuVisible;
+
+        public bool IsNavMenuVisible
+        {
+            get { return _IsNavMenuVisible; }
+            set { SetProperty(ref _IsNavMenuVisible, value); OnPropertyChanged(); }
+        }
+
+        private Visibility _IsProfileIconVisible;
+
+        public Visibility IsProfileIconVisible
+        {
+            get { return _IsProfileIconVisible; }
+            set { SetProperty(ref _IsProfileIconVisible, value); OnPropertyChanged(); }
+        }
 
         public void Initialize(Frame frame, WinUI.NavigationView navigationView, IList<KeyboardAccelerator> keyboardAccelerators)
         {
-            _navigationView = navigationView;
-            _keyboardAccelerators = keyboardAccelerators;
-            NavigationService.Frame = frame;
-            NavigationService.NavigationFailed += Frame_NavigationFailed;
-            NavigationService.Navigated += Frame_Navigated;
-            _navigationView.BackRequested += OnBackRequested;
+            try
+            {
+                _navigationView = navigationView;
+                _keyboardAccelerators = keyboardAccelerators;
+                NavigationService.Frame = frame;
+                NavigationService.NavigationFailed += Frame_NavigationFailed;
+                NavigationService.Navigated += Frame_Navigated;
+                _navigationView.BackRequested += OnBackRequested;
 
-            UserIconUrl = AppSettings.IDTokenPayLoad.Picture;
-            UserName = "Welcome "+AppSettings.IDTokenPayLoad.GivenName;
+                UserIconUrl = AppSettings.IDTokenPayLoad?.Picture;
+                UserName = "Welcome " + AppSettings.IDTokenPayLoad?.GivenName;
+                IsAdmin = AppSettings.Account?.AccountType == Model.AccountType.Admin ? Visibility.Visible : Visibility.Collapsed;
+            }
+            catch (Exception ex)
+            {
+                LogError.TrackError(ex, "Shell->Init");
+            }
+             
         }
 
         private async void OnLoaded()
@@ -127,6 +160,19 @@ namespace BookLibrary1.ViewModels
         private void Frame_Navigated(object sender, NavigationEventArgs e)
         {
             IsBackEnabled = NavigationService.CanGoBack;
+            UserIconUrl = AppSettings.IDTokenPayLoad?.Picture;
+            UserName = "Welcome " + AppSettings.IDTokenPayLoad?.GivenName;
+            IsAdmin = AppSettings.Account?.AccountType == Model.AccountType.Admin ? Visibility.Visible : Visibility.Collapsed;
+            if (e.SourcePageType.Name == "LoginDetailsPage" || e.SourcePageType.Name == "RegistrationPage")
+            {
+                IsNavMenuVisible = false;
+                //IsProfileIconVisible = Visibility.Collapsed;
+            }
+            else
+            {
+                IsNavMenuVisible = true;
+                //IsProfileIconVisible = Visibility.Visible;
+            }
             var selectedItem = GetSelectedItem(_navigationView.MenuItems, e.SourcePageType);
             if (selectedItem != null)
             {

@@ -21,7 +21,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace BookLibrary1.Views
 {
-    public sealed partial class LoginDetailsPage : Page
+    public partial class  LoginDetailsPage : Page
     {
 
         const string clientID = "1076102788232-j2bbcig9jsbaqqvl4ns18l5everubm42.apps.googleusercontent.com";
@@ -157,14 +157,14 @@ namespace BookLibrary1.Views
                 };
                 AppSettings.IDTokenPayLoad = info;
 
-                if (!string.IsNullOrEmpty(AppSettings.IDTokenPayLoad.Email))
+                if (!string.IsNullOrEmpty(AppSettings.IDTokenPayLoad?.Email))
                 {
                     var userService = Locator.Instance.Resolve<IUserServices>();
-                    var res = await userService.GetUserFromEmail(AppSettings.IDTokenPayLoad.Email);
+                    var res = await userService.GetUserFromEmail(AppSettings.IDTokenPayLoad?.Email);
                     if (res.Response)
                     {
                         AppSettings.Account = res.Data;
-                        NavigationService.Navigate(typeof(ShellPage));
+                        NavigationService.Navigate(typeof(BooksStorePage));
                     }
                     else
                     {
@@ -200,7 +200,7 @@ namespace BookLibrary1.Views
         /// <summary>
         /// Returns URI-safe data with a given input length.
         /// </summary>
-        public static string randomDataBase64url(uint length)
+        public string randomDataBase64url(uint length)
         {
             IBuffer buffer = CryptographicBuffer.GenerateRandom(length);
             return base64urlencodeNoPadding(buffer);
@@ -209,7 +209,7 @@ namespace BookLibrary1.Views
         /// <summary>
         /// Returns the SHA256 hash of the input string.
         /// </summary>
-        public static IBuffer sha256(string inputString)
+        public IBuffer sha256(string inputString)
         {
             HashAlgorithmProvider sha = HashAlgorithmProvider.OpenAlgorithm(HashAlgorithmNames.Sha256);
             IBuffer buff = CryptographicBuffer.ConvertStringToBinary(inputString, BinaryStringEncoding.Utf8);
@@ -219,7 +219,7 @@ namespace BookLibrary1.Views
         /// <summary>
         /// Base64url no-padding encodes the given input buffer.
         /// </summary>
-        public static string base64urlencodeNoPadding(IBuffer buffer)
+        public string base64urlencodeNoPadding(IBuffer buffer)
         {
             string base64 = CryptographicBuffer.EncodeToBase64String(buffer);
 

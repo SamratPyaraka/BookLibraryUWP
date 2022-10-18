@@ -23,7 +23,7 @@ namespace BookLibrary1.Helpers
 #endif
                 Dictionary<string, string> generalDetailsDictionary = new Dictionary<string, string>
                 {
-                    { "Email", AppSettings.IDTokenPayLoad.Email },
+                    { "Email", AppSettings.IDTokenPayLoad?.Email },
                     { "PageName", pageName },
                     { "URL", url }
                 };

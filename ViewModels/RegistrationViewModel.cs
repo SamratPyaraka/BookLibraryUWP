@@ -65,9 +65,9 @@ namespace BookLibrary1.ViewModels
         {
             try
             {
-                FirstNameText = AppSettings.IDTokenPayLoad.GivenName;
-                LastNameText = AppSettings.IDTokenPayLoad.FamilyName;
-                EmailText = AppSettings.IDTokenPayLoad.Email;
+                FirstNameText = AppSettings.IDTokenPayLoad?.GivenName;
+                LastNameText = AppSettings.IDTokenPayLoad?.FamilyName;
+                EmailText = AppSettings.IDTokenPayLoad?.Email;
             }
             catch (Exception ex)
             {
@@ -84,9 +84,9 @@ namespace BookLibrary1.ViewModels
             {
                 UserRequest userRequest = new UserRequest
                 {
-                    FirstName = AppSettings.IDTokenPayLoad.GivenName,
-                    LastName = AppSettings.IDTokenPayLoad.FamilyName,
-                    Email = AppSettings.IDTokenPayLoad.Email != null ? AppSettings.IDTokenPayLoad.Email: EmailText,
+                    FirstName = AppSettings.IDTokenPayLoad?.GivenName,
+                    LastName = AppSettings.IDTokenPayLoad?.FamilyName,
+                    Email = AppSettings.IDTokenPayLoad?.Email != null ? AppSettings.IDTokenPayLoad?.Email: EmailText,
                     Password = EncodePasswordToBase64(PasswordText)
                 };
 

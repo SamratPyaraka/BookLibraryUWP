@@ -59,7 +59,7 @@ namespace BookLibrary1.ViewModels
             try
             {
                 AppSettings.BookID = 0;
-                ListOfBooks = new IncrementalLoadingCollection<BookSource, Books>(20);
+                ListOfBooks = new IncrementalLoadingCollection<BookSource, Books>(AppSettings.LoadItemsOffset);
                 //ListOfBooks = new IncrementalLoadingCollection<BookSource, Books>(20, GetBooks);
             }
             catch (System.Exception ex)
@@ -77,7 +77,7 @@ namespace BookLibrary1.ViewModels
 
         private async void GetBooks()
         {
-            var listOfBooks = await userServices.GetLimitedBooks(0, 1);
+            var listOfBooks = await userServices.GetLimitedBooks(0, AppSettings.LoadItemsOffset);
             foreach(var book in listOfBooks)
             {
                 ListOfBooks.Add(book);

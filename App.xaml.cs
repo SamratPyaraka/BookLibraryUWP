@@ -72,11 +72,9 @@ namespace BookLibrary1
             // TODO: Please log and handle the exception as appropriate to your scenario
             // For more info see https://docs.microsoft.com/uwp/api/windows.ui.xaml.application.unhandledexception
         }
-
-        bool isTokenValid;
         private ActivationService CreateActivationService()
         {
-            return new ActivationService(this, typeof(Views.LoginDetailsPage), null);
+            return new ActivationService(this, typeof(Views.ShellPage), null);
 
         }
 

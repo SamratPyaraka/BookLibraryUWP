@@ -1,8 +1,10 @@
 ﻿using System;
-
+using BookLibrary1.Views;
 using Microsoft.UI.Xaml.Controls;
 
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using NavigationViewItem = Microsoft.UI.Xaml.Controls.NavigationViewItem;
 
 namespace BookLibrary1.Helpers
 {
@@ -27,5 +29,19 @@ namespace BookLibrary1.Helpers
 
         public static readonly DependencyProperty NavigateToProperty =
             DependencyProperty.RegisterAttached("NavigateTo", typeof(Type), typeof(NavHelper), new PropertyMetadata(null));
+
+        public static void LogoutUser(Uri uri=null)
+        {
+            // Gets the current frame, making one if needed.
+            var sframe = Window.Current.Content as Frame;
+            if (sframe == null)
+                sframe = new Frame();
+
+            // Opens the URI for "navigation" (handling) on the MainPage.
+            sframe.Navigate(typeof(LoginDetailsPage), uri);
+            sframe.BackStack.Clear();
+            Window.Current.Content = sframe;
+            //Window.Current.Activate();
+        }
     }
 }
